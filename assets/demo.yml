@@ -1,0 +1,505 @@
+# The configurations that used for the recording, feel free to edit them
+config:
+
+  # Specify a command to be executed
+  # like `/bin/bash -l`, `ls`, or any other commands
+  # the default is bash for Linux
+  # or powershell.exe for Windows
+  command: powershell.exe
+  
+  # Specify the current working directory path
+  # the default is the current working directory path
+  cwd: C:\sandbox\fencing
+  
+  # Export additional ENV variables
+  env:
+    recording: true
+  
+  # Explicitly set the number of columns
+  # or use `auto` to take the current
+  # number of columns of your shell
+  cols: 153
+  
+  # Explicitly set the number of rows
+  # or use `auto` to take the current
+  # number of rows of your shell
+  rows: 23
+  
+  # Amount of times to repeat GIF
+  # If value is -1, play once
+  # If value is 0, loop indefinitely
+  # If value is a positive number, loop n times
+  repeat: 0
+  
+  # Quality
+  # 1 - 100
+  quality: 100
+  
+  # Delay between frames in ms
+  # If the value is `auto` use the actual recording delays
+  frameDelay: auto
+  
+  # Maximum delay between frames in ms
+  # Ignored if the `frameDelay` isn't set to `auto`
+  # Set to `auto` to prevent limiting the max idle time
+  maxIdleTime: 2000
+  
+  # The surrounding frame box
+  # The `type` can be null, window, floating, or solid`
+  # To hide the title use the value null
+  # Don't forget to add a backgroundColor style with a null as type
+  frameBox:
+    type: floating
+    title: Terminalizer
+    style:
+      border: 0px black solid
+      # boxShadow: none
+      # margin: 0px
+  
+  # Add a watermark image to the rendered gif
+  # You need to specify an absolute path for
+  # the image on your machine or a URL, and you can also
+  # add your own CSS styles
+  watermark:
+    imagePath: null
+    style:
+      position: absolute
+      right: 15px
+      bottom: 15px
+      width: 100px
+      opacity: 0.9
+  
+  # Cursor style can be one of
+  # `block`, `underline`, or `bar`
+  cursorStyle: block
+  
+  # Font family
+  # You can use any font that is installed on your machine
+  # in CSS-like syntax
+  fontFamily: "Monaco, Lucida Console, Ubuntu Mono, Monospace"
+  
+  # The size of the font
+  fontSize: 12
+  
+  # The height of lines
+  lineHeight: 1
+  
+  # The spacing between letters
+  letterSpacing: 0
+  
+  # Theme
+  theme:
+    background: "transparent"
+    foreground: "#afafaf"
+    cursor: "#c7c7c7"
+    black: "#232628"
+    red: "#fc4384"
+    green: "#b3e33b"
+    yellow: "#ffa727"
+    blue: "#75dff2"
+    magenta: "#ae89fe"
+    cyan: "#708387"
+    white: "#d5d5d0"
+    brightBlack: "#626566"
+    brightRed: "#ff7fac"
+    brightGreen: "#c8ed71"
+    brightYellow: "#ebdf86"
+    brightBlue: "#75dff2"
+    brightMagenta: "#ae89fe"
+    brightCyan: "#b1c6ca"
+    brightWhite: "#f9f9f4"
+  
+# Records, feel free to edit them
+records:
+  - delay: 862
+    content: "\e[?25l\e[2J\e[m\e[HWindows PowerShell\r\nCopyright (C) Microsoft Corporation. All rights reserved.\e[4;1HInstall the latest PowerShell for new features and improvements! https://aka.ms/PSWindows\e[6;1H\e]0;C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe\a\e[?25h"
+  - delay: 1130
+    content: "Loading personal and system profiles took 944ms.\r\n"
+  - delay: 368
+    content: "\e[37m\e[1m\r\nMANN PATEL\e[m @ \e[38;5;45m\e[1mfencing\e[m on \e[35m\e[1m master\e[m \U0001F6E4️  ×3 via \e[33m\e[1m\e[1C v3.12.1 \e[m\r\n\U0001F680 "
+  - delay: 586
+    content: "\e[93mc"
+  - delay: 14
+    content: "\e[m"
+  - delay: 65
+    content: "\e[93m\bco"
+  - delay: 16
+    content: "\e[m"
+  - delay: 77
+    content: "\e[?25l\e[93m\e[9;4Hcon\e[?25h"
+  - delay: 17
+    content: "\e[m"
+  - delay: 24
+    content: "\e[?25l\e[93m\e[9;4Hcond\e[?25h"
+  - delay: 16
+    content: "\e[m"
+  - delay: 57
+    content: "\e[?25l\e[93m\e[9;4Hconda\e[?25h"
+  - delay: 16
+    content: "\e[m"
+  - delay: 141
+    content: "\e[?25l\e[93m\e[9;4Hconda \e[?25h"
+  - delay: 15
+    content: "\e[m"
+  - delay: 77
+    content: "\e[?25l\e[93m\e[9;4Hconda \e[ma\e[?25h"
+  - delay: 146
+    content: "\e[?25l\e[93m\e[9;4Hconda \e[mac\e[?25h"
+  - delay: 231
+    content: "\e[?25l\e[93m\e[9;4Hconda \e[mact\e[?25h"
+  - delay: 88
+    content: "\e[?25l\e[93m\e[9;4Hconda \e[macti\e[?25h"
+  - delay: 294
+    content: "\e[?25l\e[93m\e[9;4Hconda \e[mactia\e[?25h"
+  - delay: 435
+    content: "\e[?25l\e[93m\e[9;4Hconda \e[macti \b\e[?25h"
+  - delay: 92
+    content: "\e[?25l\e[93m\e[9;4Hconda \e[mactiv\e[?25h"
+  - delay: 191
+    content: "\e[?25l\e[93m\e[9;4Hconda \e[mactiva\e[?25h"
+  - delay: 184
+    content: "\e[?25l\e[93m\e[9;4Hconda \e[mactivat\e[?25h"
+  - delay: 118
+    content: "\e[?25l\e[93m\e[9;4Hconda \e[mactivate\e[?25h"
+  - delay: 179
+    content: "\e[?25l\e[93m\e[9;4Hconda \e[mactivate \e[?25h"
+  - delay: 201
+    content: "\e[?25l\e[93m\e[9;4Hconda \e[mactivate b\e[?25h"
+  - delay: 69
+    content: "\e[?25l\e[93m\e[9;4Hconda \e[mactivate ba\e[?25h"
+  - delay: 143
+    content: "\e[?25l\e[93m\e[9;4Hconda \e[mactivate bas\e[?25h"
+  - delay: 156
+    content: "\e[?25l\e[93m\e[9;4Hconda \e[mactivate base\e[?25h"
+  - delay: 163
+    content: "\r\n"
+  - delay: 617
+    content: "\e[37m\e[1m\r\nMANN PATEL\e[m @ \e[38;5;45m\e[1mfencing\e[m on \e[35m\e[1m master\e[m \U0001F6E4️  ×3 via \e[33m\e[1m\e[1C v3.11.5 \e[m took \e[33m\e[1m476ms\e[m\r\n\U0001F680 "
+  - delay: 720
+    content: "\e[93mp"
+  - delay: 16
+    content: "\e[m"
+  - delay: 150
+    content: "\e[93m\bpy"
+  - delay: 15
+    content: "\e[m"
+  - delay: 151
+    content: "\e[?25l\e[93m\e[12;4Hpyt\e[?25h"
+  - delay: 17
+    content: "\e[m"
+  - delay: 55
+    content: "\e[?25l\e[93m\e[12;4Hpytho\e[?25h"
+  - delay: 16
+    content: "\e[m"
+  - delay: 161
+    content: "\e[?25l\e[93m\e[12;4Hpython\e[?25h"
+  - delay: 18
+    content: "\e[m"
+  - delay: 484
+    content: "\e[?25l\e[93m\e[12;4Hpython \e[?25h"
+  - delay: 15
+    content: "\e[m"
+  - delay: 900
+    content: "\e[?25l\e[93m\e[12;4Hpython \e[ms\e[?25h"
+  - delay: 68
+    content: "\e[?25l\e[93m\e[12;4Hpython \e[msi\e[?25h"
+  - delay: 92
+    content: "\e[?25l\e[93m\e[12;4Hpython \e[msim\e[?25h"
+  - delay: 339
+    content: "\e[?25l\e[93m\e[12;4Hpython \e[m.\\sim.py\e[?25h"
+  - delay: 465
+    content: "\r\n"
+  - delay: 201
+    content: "\e[?25l\e[3J\e[36m\e[H============================================================\e[K\r\nFENCING BOUT - 23:37:55\e[K\r\n============================================================\e[K\e[m\r\n\e[K\e[37m\r\nFencer 1: \U0001F93A Alice (Skill: 0.70)\e[K\r\nFencer 2: \U0001F93A Bob (Skill: 0.60)\e[K\r\nPoints to win: 5\e[K\e[m\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\e[9;1H\e[?25h"
+  - delay: 2034
+    content: "\e[?25l\e[3J\e[H\e[K\e[35m\r\nDistance changed: Medium Distance → Lunge Distance\e[K\e[m\r\n\e[K\r\n════════════════════════════════════════════════════════════\e[K\e[37m\r\n\U0001F93A Alice                   VS                     \U0001F93A Bob\e[K\e[34m\r\n────────────────────────────────────────────────────────────\e[K\e[m\r\n                      {<⚔️            ⚔️>}\e[K\e[34m\r\n────────────────────────────────────────────────────────────\e[K\e[m\r\n════════════════════════════════════════════════════════════\e[K\r\n\e[K\e[37m\r\n\U0001F93A Alice attempts Disengage\e[K\r\nProbability: 0.44 | Roll: 0.09\e[K\e[32m\r\nSCORES!\e[K\e[m\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\e[14;1H\e[?25h"
+  - delay: 999
+    content: "\e[?25l\e[33m\r\nSCORE:\r\n\U0001F93A Alice: ●○○○○ [1]\r\n\U0001F93A Bob: ○○○○○ [0]\e[19;1H\e[?25h"
+  - delay: 18
+    content: "\e[m"
+  - delay: 999
+    content: "\e[?25l\e[3J\e[H\e[K\e[35m\r\nDistance changed: Lunge Distance → Short Distance\e[K\e[m\r\n\e[K\r\n════════════════════════════════════════════════════════════\e[K\e[37m\r\n\U0001F93A Bob                     VS                   \U0001F93A Alice\e[K\e[34m\r\n────────────────────────────────────────────────────────────\e[K\e[m\r\n                         {<⚔️       ⚔️>}\e[K\e[34m\r\n────────────────────────────────────────────────────────────\e[K\e[m\r\n════════════════════════════════════════════════════════════\e[K\r\n\e[K\e[37m\r\n\U0001F93A Bob attempts Disengage\e[K\r\nProbability: 0.37 | Roll: 0.86\e[K\e[31m\r\nMISSES...\e[K\e[m\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\e[14;1H\e[?25h"
+  - delay: 999
+    content: "\e[?25l\e[33m\r\nSCORE:\r\n\U0001F93A Alice: ●○○○○ [1]\r\n\U0001F93A Bob: ○○○○○ [0]\e[19;1H\e[?25h"
+  - delay: 15
+    content: "\e[m"
+  - delay: 1018
+    content: "\e[?25l\e[3J\e[H\e[K\e[35m\r\nDistance changed: Short Distance → Infighting\e[K\e[m\r\n\e[K\r\n════════════════════════════════════════════════════════════\e[K\e[37m\r\n\U0001F93A Alice                   VS                     \U0001F93A Bob\e[K\e[34m\r\n────────────────────────────────────────────────────────────\e[K\e[m\r\n                           {<⚔️  ⚔️>}\e[K\e[34m\r\n────────────────────────────────────────────────────────────\e[K\e[m\r\n════════════════════════════════════════════════════════════\e[K\r\n\e[K\r\n\U0001F93A Alice repositioning...\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\e[12;1H\e[?25h"
+  - delay: 500
+    content: "\e[?25l\e[33m\r\nSCORE:\r\n\U0001F93A Alice: ●○○○○ [1]\r\n\U0001F93A Bob: ○○○○○ [0]\e[17;1H\e[?25h"
+  - delay: 18
+    content: "\e[m"
+  - delay: 1002
+    content: "\e[?25l\e[3J\e[H\e[K\r\n════════════════════════════════════════════════════════════\e[K\e[37m\r\n\U0001F93A Bob                     VS                   \U0001F93A Alice\e[K\e[34m\r\n────────────────────────────────────────────────────────────\e[K\e[m\r\n                           {<⚔️  ⚔️>}\e[K\e[34m\r\n────────────────────────────────────────────────────────────\e[K\e[m\r\n════════════════════════════════════════════════════════════\e[K\r\n\e[K\r\n\U0001F93A Bob repositioning...\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\e[10;1H\e[?25h"
+  - delay: 511
+    content: "\e[?25l\e[33m\r\nSCORE:\r\n\U0001F93A Alice: ●○○○○ [1]\r\n\U0001F93A Bob: ○○○○○ [0]\e[15;1H\e[?25h"
+  - delay: 17
+    content: "\e[m"
+  - delay: 1000
+    content: "\e[?25l\e[3J\e[H\e[K\e[35m\r\nDistance changed: Infighting → Short Distance\e[K\e[m\r\n\e[K\r\n════════════════════════════════════════════════════════════\e[K\e[37m\r\n\U0001F93A Alice                   VS                     \U0001F93A Bob\e[K\e[34m\r\n────────────────────────────────────────────────────────────\e[K\e[m\r\n                         {<⚔️       ⚔️>}\e[K\e[34m\r\n────────────────────────────────────────────────────────────\e[K\e[m\r\n════════════════════════════════════════════════════════════\e[K\r\n\e[K\e[37m\r\n\U0001F93A Alice attempts Disengage\e[K\r\nProbability: 0.44 | Roll: 0.54\e[K\e[31m\r\nMISSES...\e[K\e[m\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\e[14;1H\e[?25h"
+  - delay: 1017
+    content: "\e[?25l\e[33m\r\nSCORE:\r\n\U0001F93A Alice: ●○○○○ [1]\r\n\U0001F93A Bob: ○○○○○ [0]\e[19;1H\e[?25h"
+  - delay: 15
+    content: "\e[m"
+  - delay: 984
+    content: "\e[?25l\e[3J\e[H\e[K\r\n════════════════════════════════════════════════════════════\e[K\e[37m\r\n\U0001F93A Bob                     VS                   \U0001F93A Alice\e[K\e[34m\r\n────────────────────────────────────────────────────────────\e[K\e[m\r\n                         {<⚔️       ⚔️>}\e[K\e[34m\r\n────────────────────────────────────────────────────────────\e[K\e[m\r\n════════════════════════════════════════════════════════════\e[K\r\n\e[K\e[37m\r\n\U0001F93A Bob attempts Disengage\e[K\r\nProbability: 0.37 | Roll: 0.83\e[K\e[31m\r\nMISSES...\e[K\e[m\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\e[12;1H\e[?25h"
+  - delay: 1017
+    content: "\e[?25l\e[33m\r\nSCORE:\r\n\U0001F93A Alice: ●○○○○ [1]\r\n\U0001F93A Bob: ○○○○○ [0]\e[17;1H\e[?25h"
+  - delay: 16
+    content: "\e[m"
+  - delay: 982
+    content: "\e[?25l\e[3J\e[H\e[K\r\n════════════════════════════════════════════════════════════\e[K\e[37m\r\n\U0001F93A Alice                   VS                     \U0001F93A Bob\e[K\e[34m\r\n────────────────────────────────────────────────────────────\e[K\e[m\r\n                         {<⚔️       ⚔️>}\e[K\e[34m\r\n────────────────────────────────────────────────────────────\e[K\e[m\r\n════════════════════════════════════════════════════════════\e[K\r\n\e[K\e[37m\r\n\U0001F93A Alice attempts Direct Thrust\e[K\r\nProbability: 0.39 | Roll: 0.44\e[K\e[31m\r\nMISSES...\e[K\e[m\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\e[12;1H\e[?25h"
+  - delay: 1017
+    content: "\e[?25l\e[33m\r\nSCORE:\r\n\U0001F93A Alice: ●○○○○ [1]\r\n\U0001F93A Bob: ○○○○○ [0]\e[17;1H\e[?25h"
+  - delay: 16
+    content: "\e[m"
+  - delay: 999
+    content: "\e[?25l\e[3J\e[H\e[K\r\n════════════════════════════════════════════════════════════\e[K\e[37m\r\n\U0001F93A Bob                     VS                   \U0001F93A Alice\e[K\e[34m\r\n────────────────────────────────────────────────────────────\e[K\e[m\r\n                         {<⚔️       ⚔️>}\e[K\e[34m\r\n────────────────────────────────────────────────────────────\e[K\e[m\r\n════════════════════════════════════════════════════════════\e[K\r\n\e[K\e[37m\r\n\U0001F93A Bob attempts Disengage\e[K\r\nProbability: 0.37 | Roll: 0.99\e[K\e[31m\r\nMISSES...\e[K\e[m\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\e[12;1H\e[?25h"
+  - delay: 1000
+    content: "\e[?25l\e[33m\r\nSCORE:\r\n\U0001F93A Alice: ●○○○○ [1]\r\n\U0001F93A Bob: ○○○○○ [0]\e[17;1H\e[?25h"
+  - delay: 16
+    content: "\e[m"
+  - delay: 1005
+    content: "\e[?25l\e[3J\e[H\e[K\e[35m\r\nDistance changed: Short Distance → Lunge Distance\e[K\e[m\r\n\e[K\r\n════════════════════════════════════════════════════════════\e[K\e[37m\r\n\U0001F93A Alice                   VS                     \U0001F93A Bob\e[K\e[34m\r\n────────────────────────────────────────────────────────────\e[K\e[m\r\n                      {<⚔️            ⚔️>}\e[K\e[34m\r\n────────────────────────────────────────────────────────────\e[K\e[m\r\n════════════════════════════════════════════════════════════\e[K\r\n\e[K\e[37m\r\n\U0001F93A Alice attempts Cut Over\e[K\r\nProbability: 0.37 | Roll: 0.87\e[K\e[31m\r\nMISSES...\e[K\e[m\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\e[14;1H\e[?25h"
+  - delay: 997
+    content: "\e[?25l\e[33m\r\nSCORE:\r\n\U0001F93A Alice: ●○○○○ [1]\r\n\U0001F93A Bob: ○○○○○ [0]\e[19;1H\e[?25h"
+  - delay: 16
+    content: "\e[m"
+  - delay: 1016
+    content: "\e[?25l\e[3J\e[H\e[K\r\n════════════════════════════════════════════════════════════\e[K\e[37m\r\n\U0001F93A Bob                     VS                   \U0001F93A Alice\e[K\e[34m\r\n────────────────────────────────────────────────────────────\e[K\e[m\r\n                      {<⚔️            ⚔️>}\e[K\e[34m\r\n────────────────────────────────────────────────────────────\e[K\e[m\r\n════════════════════════════════════════════════════════════\e[K\r\n\e[K\e[37m\r\n\U0001F93A Bob attempts Direct Thrust\e[K\r\nProbability: 0.34 | Roll: 0.45\e[K\e[31m\r\nMISSES...\e[K\e[m\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\e[12;1H\e[?25h"
+  - delay: 1000
+    content: "\e[?25l\e[33m\r\nSCORE:\r\n\U0001F93A Alice: ●○○○○ [1]\r\n\U0001F93A Bob: ○○○○○ [0]\e[17;1H\e[?25h"
+  - delay: 15
+    content: "\e[m"
+  - delay: 1000
+    content: "\e[?25l\e[3J\e[H\e[K\e[35m\r\nDistance changed: Lunge Distance → Short Distance\e[K\e[m\r\n\e[K\r\n════════════════════════════════════════════════════════════\e[K\e[37m\r\n\U0001F93A Alice                   VS                     \U0001F93A Bob\e[K\e[34m\r\n────────────────────────────────────────────────────────────\e[K\e[m\r\n                         {<⚔️       ⚔️>}\e[K\e[34m\r\n────────────────────────────────────────────────────────────\e[K\e[m\r\n════════════════════════════════════════════════════════════\e[K\r\n\e[K\e[37m\r\n\U0001F93A Alice attempts Cut Over\e[K\r\nProbability: 0.36 | Roll: 0.59\e[K\e[31m\r\nMISSES...\e[K\e[m\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\e[14;1H\e[?25h"
+  - delay: 1017
+    content: "\e[?25l\e[33m\r\nSCORE:\r\n\U0001F93A Alice: ●○○○○ [1]\r\n\U0001F93A Bob: ○○○○○ [0]\e[19;1H\e[?25h"
+  - delay: 17
+    content: "\e[m"
+  - delay: 987
+    content: "\e[?25l\e[3J\e[H\e[K\r\n════════════════════════════════════════════════════════════\e[K\e[37m\r\n\U0001F93A Bob                     VS                   \U0001F93A Alice\e[K\e[34m\r\n────────────────────────────────────────────────────────────\e[K\e[m\r\n                         {<⚔️       ⚔️>}\e[K\e[34m\r\n────────────────────────────────────────────────────────────\e[K\e[m\r\n════════════════════════════════════════════════════════════\e[K\r\n\e[K\e[37m\r\n\U0001F93A Bob attempts Disengage\e[K\r\nProbability: 0.37 | Roll: 0.98\e[K\e[31m\r\nMISSES...\e[K\e[m\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\e[12;1H\e[?25h"
+  - delay: 1009
+    content: "\e[?25l\e[33m\r\nSCORE:\r\n\U0001F93A Alice: ●○○○○ [1]\r\n\U0001F93A Bob: ○○○○○ [0]\e[17;1H\e[?25h"
+  - delay: 20
+    content: "\e[m"
+  - delay: 998
+    content: "\e[?25l\e[3J\e[H\e[K\e[35m\r\nDistance changed: Short Distance → Lunge Distance\e[K\e[m\r\n\e[K\r\n════════════════════════════════════════════════════════════\e[K\e[37m\r\n\U0001F93A Alice                   VS                     \U0001F93A Bob\e[K\e[34m\r\n────────────────────────────────────────────────────────────\e[K\e[m\r\n                      {<⚔️            ⚔️>}\e[K\e[34m\r\n────────────────────────────────────────────────────────────\e[K\e[m\r\n════════════════════════════════════════════════════════════\e[K\r\n\e[K\e[37m\r\n\U0001F93A Alice attempts Direct Thrust\e[K\r\nProbability: 0.40 | Roll: 0.68\e[K\e[31m\r\nMISSES...\e[K\e[m\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\e[14;1H\e[?25h"
+  - delay: 1001
+    content: "\e[?25l\e[33m\r\nSCORE:\r\n\U0001F93A Alice: ●○○○○ [1]\r\n\U0001F93A Bob: ○○○○○ [0]\e[19;1H\e[?25h"
+  - delay: 17
+    content: "\e[m"
+  - delay: 1014
+    content: "\e[?25l\e[3J\e[H\e[K\r\n════════════════════════════════════════════════════════════\e[K\e[37m\r\n\U0001F93A Bob                     VS                   \U0001F93A Alice\e[K\e[34m\r\n────────────────────────────────────────────────────────────\e[K\e[m\r\n                      {<⚔️            ⚔️>}\e[K\e[34m\r\n────────────────────────────────────────────────────────────\e[K\e[m\r\n════════════════════════════════════════════════════════════\e[K\r\n\e[K\e[37m\r\n\U0001F93A Bob attempts Disengage\e[K\r\nProbability: 0.38 | Roll: 0.82\e[K\e[31m\r\nMISSES...\e[K\e[m\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\e[12;1H\e[?25h"
+  - delay: 1018
+    content: "\e[?25l\e[33m\r\nSCORE:\r\n\U0001F93A Alice: ●○○○○ [1]\r\n\U0001F93A Bob: ○○○○○ [0]\e[17;1H\e[?25h"
+  - delay: 22
+    content: "\e[m"
+  - delay: 994
+    content: "\e[?25l\e[3J\e[H\e[K\r\n════════════════════════════════════════════════════════════\e[K\e[37m\r\n\U0001F93A Alice                   VS                     \U0001F93A Bob\e[K\e[34m\r\n────────────────────────────────────────────────────────────\e[K\e[m\r\n                      {<⚔️            ⚔️>}\e[K\e[34m\r\n────────────────────────────────────────────────────────────\e[K\e[m\r\n════════════════════════════════════════════════════════════\e[K\r\n\e[K\e[37m\r\n\U0001F93A Alice attempts Direct Thrust\e[K\r\nProbability: 0.40 | Roll: 0.51\e[K\e[31m\r\nMISSES...\e[K\e[m\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\e[12;1H\e[?25h"
+  - delay: 1000
+    content: "\e[?25l\e[33m\r\nSCORE:\r\n\U0001F93A Alice: ●○○○○ [1]\r\n\U0001F93A Bob: ○○○○○ [0]\e[17;1H\e[?25h"
+  - delay: 16
+    content: "\e[m"
+  - delay: 1003
+    content: "\e[?25l\e[3J\e[H\e[K\r\n════════════════════════════════════════════════════════════\e[K\e[37m\r\n\U0001F93A Bob                     VS                   \U0001F93A Alice\e[K\e[34m\r\n────────────────────────────────────────────────────────────\e[K\e[m\r\n                      {<⚔️            ⚔️>}\e[K\e[34m\r\n────────────────────────────────────────────────────────────\e[K\e[m\r\n════════════════════════════════════════════════════════════\e[K\r\n\e[K\e[37m\r\n\U0001F93A Bob attempts Cut Over\e[K\r\nProbability: 0.32 | Roll: 0.34\e[K\e[31m\r\nMISSES...\e[K\e[m\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\e[12;1H\e[?25h"
+  - delay: 1010
+    content: "\e[?25l\e[33m\r\nSCORE:\r\n\U0001F93A Alice: ●○○○○ [1]\r\n\U0001F93A Bob: ○○○○○ [0]\e[17;1H\e[?25h"
+  - delay: 17
+    content: "\e[m"
+  - delay: 1008
+    content: "\e[?25l\e[3J\e[H\e[K\r\n════════════════════════════════════════════════════════════\e[K\e[37m\r\n\U0001F93A Alice                   VS                     \U0001F93A Bob\e[K\e[34m\r\n────────────────────────────────────────────────────────────\e[K\e[m\r\n                      {<⚔️            ⚔️>}\e[K\e[34m\r\n────────────────────────────────────────────────────────────\e[K\e[m\r\n════════════════════════════════════════════════════════════\e[K\r\n\e[K\e[37m\r\n\U0001F93A Alice attempts Disengage\e[K\r\nProbability: 0.44 | Roll: 0.66\e[K\e[31m\r\nMISSES...\e[K\e[m\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\e[12;1H\e[?25h"
+  - delay: 1008
+    content: "\e[?25l\e[33m\r\nSCORE:\r\n\U0001F93A Alice: ●○○○○ [1]\r\n\U0001F93A Bob: ○○○○○ [0]\e[17;1H\e[?25h"
+  - delay: 17
+    content: "\e[m"
+  - delay: 1000
+    content: "\e[?25l\e[3J\e[H\e[K\r\n════════════════════════════════════════════════════════════\e[K\e[37m\r\n\U0001F93A Bob                     VS                   \U0001F93A Alice\e[K\e[34m\r\n────────────────────────────────────────────────────────────\e[K\e[m\r\n                      {<⚔️            ⚔️>}\e[K\e[34m\r\n────────────────────────────────────────────────────────────\e[K\e[m\r\n════════════════════════════════════════════════════════════\e[K\r\n\e[K\e[37m\r\n\U0001F93A Bob attempts Cut Over\e[K\r\nProbability: 0.32 | Roll: 0.25\e[K\e[32m\r\nSCORES!\e[K\e[m\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\e[12;1H\e[?25h"
+  - delay: 1002
+    content: "\e[?25l\e[33m\r\nSCORE:\r\n\U0001F93A Alice: ●○○○○ [1]\r\n\U0001F93A Bob: ●○○○○ [1]\e[17;1H\e[?25h"
+  - delay: 15
+    content: "\e[m"
+  - delay: 1001
+    content: "\e[?25l\e[3J\e[H\e[K\e[35m\r\nDistance changed: Lunge Distance → Short Distance\e[K\e[m\r\n\e[K\r\n════════════════════════════════════════════════════════════\e[K\e[37m\r\n\U0001F93A Alice                   VS                     \U0001F93A Bob\e[K\e[34m\r\n────────────────────────────────────────────────────────────\e[K\e[m\r\n                         {<⚔️       ⚔️>}\e[K\e[34m\r\n────────────────────────────────────────────────────────────\e[K\e[m\r\n════════════════════════════════════════════════════════════\e[K\r\n\e[K\e[37m\r\n\U0001F93A Alice attempts Cut Over\e[K\r\nProbability: 0.36 | Roll: 0.40\e[K\e[31m\r\nMISSES...\e[K\e[m\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\e[14;1H\e[?25h"
+  - delay: 1017
+    content: "\e[?25l\e[33m\r\nSCORE:\r\n\U0001F93A Alice: ●○○○○ [1]\r\n\U0001F93A Bob: ●○○○○ [1]\e[19;1H\e[?25h"
+  - delay: 15
+    content: "\e[m"
+  - delay: 1002
+    content: "\e[?25l\e[3J\e[H\e[K\r\n════════════════════════════════════════════════════════════\e[K\e[37m\r\n\U0001F93A Bob                     VS                   \U0001F93A Alice\e[K\e[34m\r\n────────────────────────────────────────────────────────────\e[K\e[m\r\n                         {<⚔️       ⚔️>}\e[K\e[34m\r\n────────────────────────────────────────────────────────────\e[K\e[m\r\n════════════════════════════════════════════════════════════\e[K\r\n\e[K\e[37m\r\n\U0001F93A Bob attempts Disengage\e[K\r\nProbability: 0.37 | Roll: 0.74\e[K\e[31m\r\nMISSES...\e[K\e[m\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\e[12;1H\e[?25h"
+  - delay: 995
+    content: "\e[?25l\e[33m\r\nSCORE:\r\n\U0001F93A Alice: ●○○○○ [1]\r\n\U0001F93A Bob: ●○○○○ [1]\e[17;1H\e[?25h"
+  - delay: 15
+    content: "\e[m"
+  - delay: 1019
+    content: "\e[?25l\e[3J\e[H\e[K\e[35m\r\nDistance changed: Short Distance → Infighting\e[K\e[m\r\n\e[K\r\n════════════════════════════════════════════════════════════\e[K\e[37m\r\n\U0001F93A Alice                   VS                     \U0001F93A Bob\e[K\e[34m\r\n────────────────────────────────────────────────────────────\e[K\e[m\r\n                           {<⚔️  ⚔️>}\e[K\e[34m\r\n────────────────────────────────────────────────────────────\e[K\e[m\r\n════════════════════════════════════════════════════════════\e[K\r\n\e[K\r\n\U0001F93A Alice repositioning...\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\e[12;1H\e[?25h"
+  - delay: 499
+    content: "\e[?25l\e[33m\r\nSCORE:\r\n\U0001F93A Alice: ●○○○○ [1]\r\n\U0001F93A Bob: ●○○○○ [1]\e[17;1H\e[?25h"
+  - delay: 18
+    content: "\e[m"
+  - delay: 994
+    content: "\e[?25l\e[3J\e[H\e[K\r\n════════════════════════════════════════════════════════════\e[K\e[37m\r\n\U0001F93A Bob                     VS                   \U0001F93A Alice\e[K\e[34m\r\n────────────────────────────────────────────────────────────\e[K\e[m\r\n                           {<⚔️  ⚔️>}\e[K\e[34m\r\n────────────────────────────────────────────────────────────\e[K\e[m\r\n════════════════════════════════════════════════════════════\e[K\r\n\e[K\r\n\U0001F93A Bob repositioning...\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\e[10;1H\e[?25h"
+  - delay: 521
+    content: "\e[?25l\e[33m\r\nSCORE:\r\n\U0001F93A Alice: ●○○○○ [1]\r\n\U0001F93A Bob: ●○○○○ [1]\e[15;1H\e[?25h"
+  - delay: 17
+    content: "\e[m"
+  - delay: 1001
+    content: "\e[?25l\e[3J\e[H\e[K\e[35m\r\nDistance changed: Infighting → Short Distance\e[K\e[m\r\n\e[K\r\n════════════════════════════════════════════════════════════\e[K\e[37m\r\n\U0001F93A Alice                   VS                     \U0001F93A Bob\e[K\e[34m\r\n────────────────────────────────────────────────────────────\e[K\e[m\r\n                         {<⚔️       ⚔️>}\e[K\e[34m\r\n────────────────────────────────────────────────────────────\e[K\e[m\r\n════════════════════════════════════════════════════════════\e[K\r\n\e[K\e[37m\r\n\U0001F93A Alice attempts Disengage\e[K\r\nProbability: 0.44 | Roll: 0.40\e[K\e[32m\r\nSCORES!\e[K\e[m\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\e[14;1H\e[?25h"
+  - delay: 998
+    content: "\e[?25l\e[33m\r\nSCORE:\r\n\U0001F93A Alice: ●●○○○ [2]\r\n\U0001F93A Bob: ●○○○○ [1]\e[19;1H\e[?25h"
+  - delay: 19
+    content: "\e[m"
+  - delay: 999
+    content: "\e[?25l\e[3J\e[H\e[K\r\n════════════════════════════════════════════════════════════\e[K\e[37m\r\n\U0001F93A Bob                     VS                   \U0001F93A Alice\e[K\e[34m\r\n────────────────────────────────────────────────────────────\e[K\e[m\r\n                         {<⚔️       ⚔️>}\e[K\e[34m\r\n────────────────────────────────────────────────────────────\e[K\e[m\r\n════════════════════════════════════════════════════════════\e[K\r\n\e[K\e[37m\r\n\U0001F93A Bob attempts Direct Thrust\e[K\r\nProbability: 0.34 | Roll: 0.80\e[K\e[31m\r\nMISSES...\e[K\e[m\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\e[12;1H\e[?25h"
+  - delay: 999
+    content: "\e[?25l\e[33m\r\nSCORE:\r\n\U0001F93A Alice: ●●○○○ [2]\r\n\U0001F93A Bob: ●○○○○ [1]\e[17;1H\e[?25h"
+  - delay: 16
+    content: "\e[m"
+  - delay: 996
+    content: "\e[?25l\e[3J\e[H\e[K\r\n════════════════════════════════════════════════════════════\e[K\e[37m\r\n\U0001F93A Alice                   VS                     \U0001F93A Bob\e[K\e[34m\r\n────────────────────────────────────────────────────────────\e[K\e[m\r\n                         {<⚔️       ⚔️>}\e[K\e[34m\r\n────────────────────────────────────────────────────────────\e[K\e[m\r\n════════════════════════════════════════════════════════════\e[K\r\n\e[K\e[37m\r\n\U0001F93A Alice attempts Disengage\e[K\r\nProbability: 0.44 | Roll: 0.57\e[K\e[31m\r\nMISSES...\e[K\e[m\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\e[12;1H\e[?25h"
+  - delay: 1020
+    content: "\e[?25l\e[33m\r\nSCORE:\r\n\U0001F93A Alice: ●●○○○ [2]\r\n\U0001F93A Bob: ●○○○○ [1]\e[17;1H\e[?25h"
+  - delay: 15
+    content: "\e[m"
+  - delay: 1002
+    content: "\e[?25l\e[3J\e[H\e[K\r\n════════════════════════════════════════════════════════════\e[K\e[37m\r\n\U0001F93A Bob                     VS                   \U0001F93A Alice\e[K\e[34m\r\n────────────────────────────────────────────────────────────\e[K\e[m\r\n                         {<⚔️       ⚔️>}\e[K\e[34m\r\n────────────────────────────────────────────────────────────\e[K\e[m\r\n════════════════════════════════════════════════════════════\e[K\r\n\e[K\e[37m\r\n\U0001F93A Bob attempts Disengage\e[K\r\nProbability: 0.37 | Roll: 0.65\e[K\e[31m\r\nMISSES...\e[K\e[m\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\e[12;1H\e[?25h"
+  - delay: 999
+    content: "\e[?25l\e[33m\r\nSCORE:\r\n\U0001F93A Alice: ●●○○○ [2]\r\n\U0001F93A Bob: ●○○○○ [1]\e[17;1H\e[?25h"
+  - delay: 15
+    content: "\e[m"
+  - delay: 1019
+    content: "\e[?25l\e[3J\e[H\e[K\e[35m\r\nDistance changed: Short Distance → Infighting\e[K\e[m\r\n\e[K\r\n════════════════════════════════════════════════════════════\e[K\e[37m\r\n\U0001F93A Alice                   VS                     \U0001F93A Bob\e[K\e[34m\r\n────────────────────────────────────────────────────────────\e[K\e[m\r\n                           {<⚔️  ⚔️>}\e[K\e[34m\r\n────────────────────────────────────────────────────────────\e[K\e[m\r\n════════════════════════════════════════════════════════════\e[K\r\n\e[K\r\n\U0001F93A Alice repositioning...\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\e[12;1H\e[?25h"
+  - delay: 500
+    content: "\e[?25l\e[33m\r\nSCORE:\r\n\U0001F93A Alice: ●●○○○ [2]\r\n\U0001F93A Bob: ●○○○○ [1]\e[17;1H\e[?25h"
+  - delay: 17
+    content: "\e[m"
+  - delay: 1014
+    content: "\e[?25l\e[3J\e[H\e[K\r\n════════════════════════════════════════════════════════════\e[K\e[37m\r\n\U0001F93A Bob                     VS                   \U0001F93A Alice\e[K\e[34m\r\n────────────────────────────────────────────────────────────\e[K\e[m\r\n                           {<⚔️  ⚔️>}\e[K\e[34m\r\n────────────────────────────────────────────────────────────\e[K\e[m\r\n════════════════════════════════════════════════════════════\e[K\r\n\e[K\r\n\U0001F93A Bob repositioning...\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\e[10;1H\e[?25h"
+  - delay: 503
+    content: "\e[?25l\e[33m\r\nSCORE:\r\n\U0001F93A Alice: ●●○○○ [2]\r\n\U0001F93A Bob: ●○○○○ [1]\e[15;1H\e[?25h"
+  - delay: 15
+    content: "\e[m"
+  - delay: 996
+    content: "\e[?25l\e[3J\e[H\e[K\r\n════════════════════════════════════════════════════════════\e[K\e[37m\r\n\U0001F93A Alice                   VS                     \U0001F93A Bob\e[K\e[34m\r\n────────────────────────────────────────────────────────────\e[K\e[m\r\n                           {<⚔️  ⚔️>}\e[K\e[34m\r\n────────────────────────────────────────────────────────────\e[K\e[m\r\n════════════════════════════════════════════════════════════\e[K\r\n\e[K\r\n\U0001F93A Alice repositioning...\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\e[10;1H\e[?25h"
+  - delay: 502
+    content: "\e[?25l\e[33m\r\nSCORE:\r\n\U0001F93A Alice: ●●○○○ [2]\r\n\U0001F93A Bob: ●○○○○ [1]\e[15;1H\e[?25h"
+  - delay: 16
+    content: "\e[m"
+  - delay: 1001
+    content: "\e[?25l\e[3J\e[H\e[K\r\n════════════════════════════════════════════════════════════\e[K\e[37m\r\n\U0001F93A Bob                     VS                   \U0001F93A Alice\e[K\e[34m\r\n────────────────────────────────────────────────────────────\e[K\e[m\r\n                           {<⚔️  ⚔️>}\e[K\e[34m\r\n────────────────────────────────────────────────────────────\e[K\e[m\r\n════════════════════════════════════════════════════════════\e[K\r\n\e[K\r\n\U0001F93A Bob repositioning...\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\e[10;1H\e[?25h"
+  - delay: 516
+    content: "\e[?25l\e[33m\r\nSCORE:\r\n\U0001F93A Alice: ●●○○○ [2]\r\n\U0001F93A Bob: ●○○○○ [1]\e[15;1H\e[?25h"
+  - delay: 17
+    content: "\e[m"
+  - delay: 998
+    content: "\e[?25l\e[3J\e[H\e[K\r\n════════════════════════════════════════════════════════════\e[K\e[37m\r\n\U0001F93A Alice                   VS                     \U0001F93A Bob\e[K\e[34m\r\n────────────────────────────────────────────────────────────\e[K\e[m\r\n                           {<⚔️  ⚔️>}\e[K\e[34m\r\n────────────────────────────────────────────────────────────\e[K\e[m\r\n════════════════════════════════════════════════════════════\e[K\r\n\e[K\r\n\U0001F93A Alice repositioning...\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\e[10;1H\e[?25h"
+  - delay: 500
+    content: "\e[?25l\e[33m\r\nSCORE:\r\n\U0001F93A Alice: ●●○○○ [2]\r\n\U0001F93A Bob: ●○○○○ [1]\e[15;1H\e[?25h"
+  - delay: 19
+    content: "\e[m"
+  - delay: 1013
+    content: "\e[?25l\e[3J\e[H\e[K\e[35m\r\nDistance changed: Infighting → Short Distance\e[K\e[m\r\n\e[K\r\n════════════════════════════════════════════════════════════\e[K\e[37m\r\n\U0001F93A Bob                     VS                   \U0001F93A Alice\e[K\e[34m\r\n────────────────────────────────────────────────────────────\e[K\e[m\r\n                         {<⚔️       ⚔️>}\e[K\e[34m\r\n────────────────────────────────────────────────────────────\e[K\e[m\r\n════════════════════════════════════════════════════════════\e[K\r\n\e[K\e[37m\r\n\U0001F93A Bob attempts Disengage\e[K\r\nProbability: 0.37 | Roll: 0.50\e[K\e[31m\r\nMISSES...\e[K\e[m\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\e[14;1H\e[?25h"
+  - delay: 1001
+    content: "\e[?25l\e[33m\r\nSCORE:\r\n\U0001F93A Alice: ●●○○○ [2]\r\n\U0001F93A Bob: ●○○○○ [1]\e[19;1H\e[?25h"
+  - delay: 15
+    content: "\e[m"
+  - delay: 1001
+    content: "\e[?25l\e[3J\e[H\e[K\r\n════════════════════════════════════════════════════════════\e[K\e[37m\r\n\U0001F93A Alice                   VS                     \U0001F93A Bob\e[K\e[34m\r\n────────────────────────────────────────────────────────────\e[K\e[m\r\n                         {<⚔️       ⚔️>}\e[K\e[34m\r\n────────────────────────────────────────────────────────────\e[K\e[m\r\n════════════════════════════════════════════════════════════\e[K\r\n\e[K\e[37m\r\n\U0001F93A Alice attempts Direct Thrust\e[K\r\nProbability: 0.39 | Roll: 0.44\e[K\e[31m\r\nMISSES...\e[K\e[m\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\e[12;1H\e[?25h"
+  - delay: 1017
+    content: "\e[?25l\e[33m\r\nSCORE:\r\n\U0001F93A Alice: ●●○○○ [2]\r\n\U0001F93A Bob: ●○○○○ [1]\e[17;1H\e[?25h"
+  - delay: 16
+    content: "\e[m"
+  - delay: 999
+    content: "\e[?25l\e[3J\e[H\e[K\e[35m\r\nDistance changed: Short Distance → Lunge Distance\e[K\e[m\r\n\e[K\r\n════════════════════════════════════════════════════════════\e[K\e[37m\r\n\U0001F93A Bob                     VS                   \U0001F93A Alice\e[K\e[34m\r\n────────────────────────────────────────────────────────────\e[K\e[m\r\n                      {<⚔️            ⚔️>}\e[K\e[34m\r\n────────────────────────────────────────────────────────────\e[K\e[m\r\n════════════════════════════════════════════════════════════\e[K\r\n\e[K\e[37m\r\n\U0001F93A Bob attempts Direct Thrust\e[K\r\nProbability: 0.34 | Roll: 0.18\e[K\e[32m\r\nSCORES!\e[K\e[m\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\e[14;1H\e[?25h"
+  - delay: 1001
+    content: "\e[?25l\e[33m\r\nSCORE:\r\n\U0001F93A Alice: ●●○○○ [2]\r\n\U0001F93A Bob: ●●○○○ [2]\e[19;1H\e[?25h"
+  - delay: 17
+    content: "\e[m"
+  - delay: 1000
+    content: "\e[?25l\e[3J\e[H\e[K\e[35m\r\nDistance changed: Lunge Distance → Short Distance\e[K\e[m\r\n\e[K\r\n════════════════════════════════════════════════════════════\e[K\e[37m\r\n\U0001F93A Alice                   VS                     \U0001F93A Bob\e[K\e[34m\r\n────────────────────────────────────────────────────────────\e[K\e[m\r\n                         {<⚔️       ⚔️>}\e[K\e[34m\r\n────────────────────────────────────────────────────────────\e[K\e[m\r\n════════════════════════════════════════════════════════════\e[K\r\n\e[K\e[37m\r\n\U0001F93A Alice attempts Direct Thrust\e[K\r\nProbability: 0.39 | Roll: 0.86\e[K\e[31m\r\nMISSES...\e[K\e[m\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\e[14;1H\e[?25h"
+  - delay: 997
+    content: "\e[?25l\e[33m\r\nSCORE:\r\n\U0001F93A Alice: ●●○○○ [2]\r\n\U0001F93A Bob: ●●○○○ [2]\e[19;1H\e[?25h"
+  - delay: 19
+    content: "\e[m"
+  - delay: 998
+    content: "\e[?25l\e[3J\e[H\e[K\e[35m\r\nDistance changed: Short Distance → Lunge Distance\e[K\e[m\r\n\e[K\r\n════════════════════════════════════════════════════════════\e[K\e[37m\r\n\U0001F93A Bob                     VS                   \U0001F93A Alice\e[K\e[34m\r\n────────────────────────────────────────────────────────────\e[K\e[m\r\n                      {<⚔️            ⚔️>}\e[K\e[34m\r\n────────────────────────────────────────────────────────────\e[K\e[m\r\n════════════════════════════════════════════════════════════\e[K\r\n\e[K\e[37m\r\n\U0001F93A Bob attempts Cut Over\e[K\r\nProbability: 0.32 | Roll: 0.34\e[K\e[31m\r\nMISSES...\e[K\e[m\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\e[14;1H\e[?25h"
+  - delay: 1018
+    content: "\e[?25l\e[33m\r\nSCORE:\r\n\U0001F93A Alice: ●●○○○ [2]\r\n\U0001F93A Bob: ●●○○○ [2]\e[19;1H\e[?25h"
+  - delay: 16
+    content: "\e[m"
+  - delay: 1000
+    content: "\e[?25l\e[3J\e[H\e[K\e[35m\r\nDistance changed: Lunge Distance → Medium Distance\e[K\e[m\r\n\e[K\r\n════════════════════════════════════════════════════════════\e[K\e[37m\r\n\U0001F93A Alice                   VS                     \U0001F93A Bob\e[K\e[34m\r\n────────────────────────────────────────────────────────────\e[K\e[m\r\n                    {<⚔️                 ⚔️>}\e[K\e[34m\r\n────────────────────────────────────────────────────────────\e[K\e[m\r\n════════════════════════════════════════════════════════════\e[K\r\n\e[K\r\n\U0001F93A Alice repositioning...\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\e[12;1H\e[?25h"
+  - delay: 516
+    content: "\e[?25l\e[33m\r\nSCORE:\r\n\U0001F93A Alice: ●●○○○ [2]\r\n\U0001F93A Bob: ●●○○○ [2]\e[17;1H\e[?25h"
+  - delay: 16
+    content: "\e[m"
+  - delay: 1001
+    content: "\e[?25l\e[3J\e[H\e[K\r\n════════════════════════════════════════════════════════════\e[K\e[37m\r\n\U0001F93A Bob                     VS                   \U0001F93A Alice\e[K\e[34m\r\n────────────────────────────────────────────────────────────\e[K\e[m\r\n                    {<⚔️                 ⚔️>}\e[K\e[34m\r\n────────────────────────────────────────────────────────────\e[K\e[m\r\n════════════════════════════════════════════════════════════\e[K\r\n\e[K\r\n\U0001F93A Bob repositioning...\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\e[10;1H\e[?25h"
+  - delay: 499
+    content: "\e[?25l\e[33m\r\nSCORE:\r\n\U0001F93A Alice: ●●○○○ [2]\r\n\U0001F93A Bob: ●●○○○ [2]\e[15;1H\e[?25h"
+  - delay: 16
+    content: "\e[m"
+  - delay: 1017
+    content: "\e[?25l\e[3J\e[H\e[K\r\n════════════════════════════════════════════════════════════\e[K\e[37m\r\n\U0001F93A Alice                   VS                     \U0001F93A Bob\e[K\e[34m\r\n────────────────────────────────────────────────────────────\e[K\e[m\r\n                    {<⚔️                 ⚔️>}\e[K\e[34m\r\n────────────────────────────────────────────────────────────\e[K\e[m\r\n════════════════════════════════════════════════════════════\e[K\r\n\e[K\r\n\U0001F93A Alice repositioning...\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\e[10;1H\e[?25h"
+  - delay: 502
+    content: "\e[?25l\e[33m\r\nSCORE:\r\n\U0001F93A Alice: ●●○○○ [2]\r\n\U0001F93A Bob: ●●○○○ [2]\e[15;1H\e[?25h"
+  - delay: 16
+    content: "\e[m"
+  - delay: 1014
+    content: "\e[?25l\e[3J\e[H\e[K\r\n════════════════════════════════════════════════════════════\e[K\e[37m\r\n\U0001F93A Bob                     VS                   \U0001F93A Alice\e[K\e[34m\r\n────────────────────────────────────────────────────────────\e[K\e[m\r\n                    {<⚔️                 ⚔️>}\e[K\e[34m\r\n────────────────────────────────────────────────────────────\e[K\e[m\r\n════════════════════════════════════════════════════════════\e[K\r\n\e[K\r\n\U0001F93A Bob repositioning...\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\e[10;1H\e[?25h"
+  - delay: 502
+    content: "\e[?25l\e[33m\r\nSCORE:\r\n\U0001F93A Alice: ●●○○○ [2]\r\n\U0001F93A Bob: ●●○○○ [2]\e[15;1H\e[?25h"
+  - delay: 16
+    content: "\e[m"
+  - delay: 997
+    content: "\e[?25l\e[3J\e[H\e[K\e[35m\r\nDistance changed: Medium Distance → Lunge Distance\e[K\e[m\r\n\e[K\r\n════════════════════════════════════════════════════════════\e[K\e[37m\r\n\U0001F93A Alice                   VS                     \U0001F93A Bob\e[K\e[34m\r\n────────────────────────────────────────────────────────────\e[K\e[m\r\n                      {<⚔️            ⚔️>}\e[K\e[34m\r\n────────────────────────────────────────────────────────────\e[K\e[m\r\n════════════════════════════════════════════════════════════\e[K\r\n\e[K\e[37m\r\n\U0001F93A Alice attempts Cut Over\e[K\r\nProbability: 0.37 | Roll: 0.18\e[K\e[32m\r\nSCORES!\e[K\e[m\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\e[14;1H\e[?25h"
+  - delay: 1000
+    content: "\e[?25l\e[33m\r\nSCORE:\r\n\U0001F93A Alice: ●●●○○ [3]\r\n\U0001F93A Bob: ●●○○○ [2]\e[19;1H\e[?25h"
+  - delay: 16
+    content: "\e[m"
+  - delay: 1016
+    content: "\e[?25l\e[3J\e[H\e[K\e[35m\r\nDistance changed: Lunge Distance → Short Distance\e[K\e[m\r\n\e[K\r\n════════════════════════════════════════════════════════════\e[K\e[37m\r\n\U0001F93A Bob                     VS                   \U0001F93A Alice\e[K\e[34m\r\n────────────────────────────────────────────────────────────\e[K\e[m\r\n                         {<⚔️       ⚔️>}\e[K\e[34m\r\n────────────────────────────────────────────────────────────\e[K\e[m\r\n════════════════════════════════════════════════════════════\e[K\r\n\e[K\e[37m\r\n\U0001F93A Bob attempts Disengage\e[K\r\nProbability: 0.37 | Roll: 0.79\e[K\e[31m\r\nMISSES...\e[K\e[m\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\e[14;1H\e[?25h"
+  - delay: 1000
+    content: "\e[?25l\e[33m\r\nSCORE:\r\n\U0001F93A Alice: ●●●○○ [3]\r\n\U0001F93A Bob: ●●○○○ [2]\e[19;1H\e[?25h"
+  - delay: 16
+    content: "\e[m"
+  - delay: 1004
+    content: "\e[?25l\e[3J\e[H\e[K\r\n════════════════════════════════════════════════════════════\e[K\e[37m\r\n\U0001F93A Alice                   VS                     \U0001F93A Bob\e[K\e[34m\r\n────────────────────────────────────────────────────────────\e[K\e[m\r\n                         {<⚔️       ⚔️>}\e[K\e[34m\r\n────────────────────────────────────────────────────────────\e[K\e[m\r\n════════════════════════════════════════════════════════════\e[K\r\n\e[K\e[37m\r\n\U0001F93A Alice attempts Cut Over\e[K\r\nProbability: 0.36 | Roll: 0.19\e[K\e[32m\r\nSCORES!\e[K\e[m\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\e[12;1H\e[?25h"
+  - delay: 1012
+    content: "\e[?25l\e[33m\r\nSCORE:\r\n\U0001F93A Alice: ●●●●○ [4]\r\n\U0001F93A Bob: ●●○○○ [2]\e[17;1H\e[?25h"
+  - delay: 15
+    content: "\e[m"
+  - delay: 1001
+    content: "\e[?25l\e[3J\e[H\e[K\r\n════════════════════════════════════════════════════════════\e[K\e[37m\r\n\U0001F93A Bob                     VS                   \U0001F93A Alice\e[K\e[34m\r\n────────────────────────────────────────────────────────────\e[K\e[m\r\n                         {<⚔️       ⚔️>}\e[K\e[34m\r\n────────────────────────────────────────────────────────────\e[K\e[m\r\n════════════════════════════════════════════════════════════\e[K\r\n\e[K\e[37m\r\n\U0001F93A Bob attempts Cut Over\e[K\r\nProbability: 0.31 | Roll: 0.03\e[K\e[32m\r\nSCORES!\e[K\e[m\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\e[12;1H\e[?25h"
+  - delay: 1003
+    content: "\e[?25l\e[33m\r\nSCORE:\r\n\U0001F93A Alice: ●●●●○ [4]\r\n\U0001F93A Bob: ●●●○○ [3]\e[17;1H\e[?25h"
+  - delay: 15
+    content: "\e[m"
+  - delay: 998
+    content: "\e[?25l\e[3J\e[H\e[K\r\n════════════════════════════════════════════════════════════\e[K\e[37m\r\n\U0001F93A Alice                   VS                     \U0001F93A Bob\e[K\e[34m\r\n────────────────────────────────────────────────────────────\e[K\e[m\r\n                         {<⚔️       ⚔️>}\e[K\e[34m\r\n────────────────────────────────────────────────────────────\e[K\e[m\r\n════════════════════════════════════════════════════════════\e[K\r\n\e[K\e[37m\r\n\U0001F93A Alice attempts Disengage\e[K\r\nProbability: 0.44 | Roll: 0.16\e[K\e[32m\r\nSCORES!\e[K\e[m\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\e[12;1H\e[?25h"
+  - delay: 1015
+    content: "\e[?25l\e[33m\r\nSCORE:\r\n\U0001F93A Alice: ●●●●● [5]\r\n\U0001F93A Bob: ●●●○○ [3]\e[17;1H\e[?25h"
+  - delay: 19
+    content: "\e[m"
+  - delay: 1000
+    content: "\e[?25l\e[3J\e[36m\e[H============================================================\e[K\r\nBOUT SUMMARY\e[K\r\n============================================================\e[K\e[m\r\n\e[K\e[32m\r\nWinner: \U0001F93A Alice\e[K\e[37m\r\nTotal Rounds: 45\e[K\r\nDuration: 86.6 seconds\e[K\e[m\r\n\e[K\e[36m\r\nAction Statistics:\e[K\e[m\r\nDisengage           : 3/15 (20.0% success)\e[K\r\nDirect Thrust       : 1/8 (12.5% success)\e[K\r\nCut Over            : 4/9 (44.4% success)\e[K\r\n\e[K\r\n============================================================\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\r\n\e[K\e[15;1H\e[?25h"
+  - delay: 165
+    content: "\e[37m\e[1m\r\nMANN PATEL\e[m @ \e[38;5;45m\e[1mfencing\e[m on \e[35m\e[1m master\e[m \U0001F6E4️  ×3 via \e[33m\e[1m\e[1C v3.11.5 \e[m took \e[33m\e[1m1m26s\e[m\r\n\U0001F680 "
+  - delay: 16211
+    content: "\e[93me"
+  - delay: 16
+    content: "\e[m"
+  - delay: 198
+    content: "\e[93m\bex"
+  - delay: 19
+    content: "\e[m"
+  - delay: 117
+    content: "\e[?25l\e[93m\e[17;4Hexi\e[?25h"
+  - delay: 15
+    content: "\e[m"
+  - delay: 151
+    content: "\e[?25l\e[92m\e[17;4Hexit\e[?25h"
+  - delay: 17
+    content: "\e[m"
+  - delay: 176
+    content: "\r\n"
