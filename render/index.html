@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Advanced Fencing Simulator Visualization</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/17.0.2/umd/react.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/17.0.2/umd/react-dom.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #111827;
+        }
+
+        .tactical-info {
+            font-size: 0.875rem;
+        }
+
+        .scrollable {
+            max-height: 200px;
+            overflow-y: auto;
+            scrollbar-width: thin;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+        const FencingVisualizer = () => {
+            const [boutState, setBoutState] = React.useState({
+                distance: 'MEDIUM',
+                fencer1: {
+                    name: '',
+                    score: 0,
+                    blade_position: '',
+                    has_priority: false,
+                    has_preparation: false,
+                    skill_level: 0,
+                    valid_actions: [],
+                },
+                fencer2: {
+                    name: '',
+                    score: 0,
+                    blade_position: '',
+                    has_priority: false,
+                    has_preparation: false,
+                    skill_level: 0,
+                    valid_actions: [],
+                },
+                current_action: null,
+                rounds: 0,
+                action_history: [],
+                last_action_details: {
+                    execution_time: null,
+                    success_rate: null,
+                    distance_modifier: null,
+                    final_probability: null
+                },
+                distance_info: {
+                    description: '',
+                    range: [],
+                    possible_transitions: [],
+                    preparation_allowed: false
+                }
+            });
+            const [connected, setConnected] = React.useState(false);
+
+            const getFencerPositions = () => {
+                const distanceMap = {
+                    'OUT_OF_DISTANCE': 500,
+                    'LONG': 400,
+                    'MEDIUM': 300,
+                    'LUNGE': 200,
+                    'SHORT': 150,
+                    'INFIGHTING': 80
+                };
+                const spacing = distanceMap[boutState.distance] || 300;
+                const centerX = 400;  // Center of the piste
+                return {
+                    fencer1: centerX - spacing / 2,
+                    fencer2: centerX + spacing / 2
+                };
+            };
+
+            const positions = getFencerPositions();
+
+            React.useEffect(() => {
+                const ws = new WebSocket('ws://localhost:8765');
+                ws.onopen = () => setConnected(true);
+                ws.onmessage = (event) => setBoutState(JSON.parse(event.data));
+                ws.onclose = () => setConnected(false);
+                return () => ws.close();
+            }, []);
+
+            const DistanceIndicator = () => (
+                <div className="bg-gray-700 p-4 rounded-lg">
+                    <h3 className="text-purple-400 font-bold mb-2">Distance Information</h3>
+                    <div className="text-gray-300 space-y-1 text-sm">
+                        <div>Current: {boutState.distance} ({boutState.distance_info.description})</div>
+                        <div>Range: {boutState.distance_info.range[0]}m - {boutState.distance_info.range[1]}m</div>
+                        <div>Preparation Allowed: {boutState.distance_info.preparation_allowed ? '✓' : '✗'}</div>
+                        <div>Possible Transitions: {boutState.distance_info.possible_transitions.join(', ')}</div>
+                    </div>
+                </div>
+            );
+
+            const FencerPanel = ({ fencer, side }) => (
+                <div className={`bg-gray-800 p-4 rounded-lg ${side === 'left' ? 'text-blue-400' : 'text-red-400'}`}>
+                    <h3 className="font-bold text-lg mb-2">{fencer.name}</h3>
+                    <div className="space-y-2">
+                        <div className="text-2xl">{fencer.score}</div>
+                        <div className="tactical-info space-y-1">
+                            <div>Blade: {fencer.blade_position}</div>
+                            <div>Skill Level: {(fencer.skill_level * 100).toFixed(1)}%</div>
+                            {fencer.has_priority && <div className="text-yellow-400">Has Priority</div>}
+                            {fencer.has_preparation && <div className="text-green-400">Has Preparation</div>}
+                        </div>
+
+                        <div className="mt-4">
+                            <h4 className="text-sm font-bold mb-1">Valid Actions:</h4>
+                            <div className="scrollable text-xs space-y-1">
+                                {fencer.valid_actions.map((action, i) => (
+                                    <div key={i} className="text-gray-300">
+                                        {action.name} ({(action.success_rate * 100).toFixed(1)}%)
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+
+            const ActionDetails = () => (
+                <div className="bg-gray-700 p-4 rounded-lg">
+                    <h3 className="text-yellow-400 font-bold mb-2">Current Action Details</h3>
+                    {boutState.current_action && boutState.last_action_details && (
+                        <div className="text-gray-300 space-y-1 text-sm">
+                            <div>Action: {boutState.current_action}</div>
+                            <div>Execution Time: {boutState.last_action_details.execution_time}s</div>
+                            <div>Base Success Rate: {(boutState.last_action_details.success_rate * 100).toFixed(1)}%</div>
+                            <div>Distance Modifier: {boutState.last_action_details.distance_modifier}x</div>
+                            <div>Final Probability: {(boutState.last_action_details.final_probability * 100).toFixed(1)}%</div>
+                        </div>
+                    )}
+                </div>
+            );
+
+            return (
+                <div className="w-full min-h-screen bg-gray-900 p-4">
+                    <div className="max-w-7xl mx-auto">
+                        {/* Header */}
+                        <div className={`text-sm mb-4 ${connected ? 'text-green-500' : 'text-red-500'}`}>
+                            {connected ? 'Connected to simulator' : 'Disconnected from simulator'}
+                        </div>
+
+                        {/* Main Grid */}
+                        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+                            <FencerPanel fencer={boutState.fencer1} side="left" />
+
+                            {/* Center Column */}
+                            <div className="space-y-4">
+                                {/* Piste Visualization */}
+                                <div className="bg-gray-800 p-4 rounded-lg">
+                                    <div className="relative w-full h-64 bg-gray-700 rounded-lg">
+                                        <svg viewBox="0 0 800 200" className="w-full h-full">
+                                            {/* Piste base */}
+                                            <rect x="100" y="120" width="600" height="20" fill="#475569" />
+
+                                            {/* Warning lines */}
+                                            <line x1="200" y1="115" x2="200" y2="145" stroke="#dc2626" strokeWidth="2" />
+                                            <line x1="600" y1="115" x2="600" y2="145" stroke="#dc2626" strokeWidth="2" />
+
+                                            {/* Center line */}
+                                            <line x1="400" y1="110" x2="400" y2="150" stroke="#94a3b8" strokeWidth="2" />
+
+                                            {/* Left Fencer */}
+                                            <g transform={`translate(${positions.fencer1}, 100)`}>
+                                                <rect width="20" height="60" fill="#3b82f6" />
+                                                <line x1="20" y1="30" x2="70" y2="30" stroke="#3b82f6" strokeWidth="4" />
+                                            </g>
+
+                                            {/* Right Fencer */}
+                                            <g transform={`translate(${positions.fencer2 - 20}, 100)`}>
+                                                <rect width="20" height="60" fill="#ef4444" />
+                                                <line x1="0" y1="30" x2="-50" y2="30" stroke="#ef4444" strokeWidth="4" />
+                                            </g>
+
+                                            {/* Distance markers */}
+                                            <text x="200" y="180" fill="#94a3b8" fontSize="12" textAnchor="middle">2m</text>
+                                            <text x="600" y="180" fill="#94a3b8" fontSize="12" textAnchor="middle">2m</text>
+                                            <text x="400" y="180" fill="#94a3b8" fontSize="12" textAnchor="middle">Center</text>
+                                        </svg>
+                                    </div>
+                                </div>
+
+                                <DistanceIndicator />
+                                <ActionDetails />
+                            </div>
+
+                            <FencerPanel fencer={boutState.fencer2} side="right" />
+                        </div>
+
+                        {/* Action History */}
+                        <div className="mt-4 bg-gray-800 p-4 rounded-lg">
+                            <h3 className="text-gray-300 font-bold mb-2">Action History</h3>
+                            <div className="scrollable">
+                                {boutState.action_history.map((action, index) => (
+                                    <div key={index} className="text-gray-400 text-sm">
+                                        {action}
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        ReactDOM.render(<FencingVisualizer />, document.getElementById('root'));
+    </script>
+</body>
+
+</html>
