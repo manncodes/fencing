@@ -4,716 +4,858 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3D Fencing Simulator</title>
-
-    <!-- Three.js and GSAP for smooth animations -->
+    <title>Fencing Simulator</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/18.6.4/tween.umd.js"></script>
     <style>
         body {
             margin: 0;
-            background: #0f172a;
-            color: white;
-            font-family: Arial, sans-serif;
             overflow: hidden;
+            font-family: Arial, sans-serif;
+            color: white;
+            user-select: none;
         }
 
-        #stats {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            padding: 10px;
+        #score {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 24px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 10px 20px;
+            border-radius: 10px;
             display: flex;
-            justify-content: space-between;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 100;
+            gap: 20px;
         }
 
-        .fencer-stats {
+        .fencer-info {
+            position: absolute;
+            top: 80px;
+            background: rgba(0, 0, 0, 0.7);
             padding: 10px;
             border-radius: 5px;
-            width: 200px;
+            font-size: 14px;
+        }
+
+        #left-info {
+            left: 20px;
+        }
+
+        #right-info {
+            right: 20px;
+        }
+
+        #controls {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
             display: flex;
-            flex-direction: column;
+            justify-content: space-between;
+            padding: 20px;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+        }
+
+        .control-group {
+            display: flex;
+            gap: 20px;
+        }
+
+        .action-circle {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .parry-button {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: none;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .parry-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .action-buttons {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
             gap: 5px;
         }
 
-        #fencer1-stats {
-            background: rgba(0, 100, 255, 0.3);
-        }
-
-        #fencer2-stats {
-            background: rgba(255, 0, 0, 0.3);
-        }
-
-        #current-action {
-            background: rgba(0, 0, 0, 0.5);
-            padding: 10px 20px;
+        button {
+            padding: 8px 16px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 5px;
-            text-align: center;
-            min-width: 200px;
-            transition: background-color 0.3s;
-        }
-
-        #info {
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            padding: 10px;
-            display: flex;
-            justify-content: space-between;
             background: rgba(0, 0, 0, 0.5);
-            z-index: 100;
+            color: white;
+            cursor: pointer;
+            transition: all 0.2s;
         }
 
-        .info-panel {
-            padding: 10px;
-            border-radius: 5px;
-            background: rgba(0, 0, 0, 0.3);
-            width: 45%;
+        button:hover {
+            background: rgba(255, 255, 255, 0.2);
         }
 
-        #history {
-            max-height: 100px;
-            overflow-y: auto;
-            padding-right: 10px;
-            scrollbar-width: thin;
-            scrollbar-color: rgba(255, 255, 255, 0.3) rgba(0, 0, 0, 0.3);
+        button:active {
+            transform: scale(0.95);
         }
 
-        #history::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        #history::-webkit-scrollbar-track {
-            background: rgba(0, 0, 0, 0.3);
-        }
-
-        #history::-webkit-scrollbar-thumb {
-            background-color: rgba(255, 255, 255, 0.3);
-            border-radius: 3px;
-        }
-
-        .connection-status {
-            position: fixed;
-            top: 10px;
-            right: 10px;
-            padding: 5px 10px;
-            border-radius: 15px;
+        .distance-indicator {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 18px;
             background: rgba(0, 0, 0, 0.7);
+            padding: 5px 15px;
+            border-radius: 15px;
+        }
+
+        .hit-flash {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 0, 0, 0.2);
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        #connection-controls {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 10px;
+            border-radius: 5px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        #connect-button {
+            padding: 8px 16px;
+            cursor: pointer;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        #connect-button.disconnected {
+            background: #f44336;
+        }
+
+        #connection-status {
+            color: white;
+            font-size: 14px;
             display: flex;
             align-items: center;
             gap: 5px;
-            z-index: 1000;
         }
 
-        #status-dot {
-            width: 8px;
-            height: 8px;
+        .status-indicator {
+            width: 10px;
+            height: 10px;
             border-radius: 50%;
-            background: red;
-            transition: background-color 0.3s;
+            background: #f44336;
         }
 
-        #status-dot.connected {
+        .status-indicator.connected {
             background: #4CAF50;
-        }
-
-        #reconnect-button {
-            display: none;
-            margin-left: 10px;
-            padding: 2px 8px;
-            border-radius: 4px;
-            background: #4CAF50;
-            color: white;
-            cursor: pointer;
-            border: none;
-            transition: background-color 0.3s;
-        }
-
-        #reconnect-button:hover {
-            background: #45a049;
-        }
-
-        .success-indicator {
-            position: absolute;
-            padding: 5px 10px;
-            border-radius: 4px;
-            color: white;
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-
-        .success {
-            background: rgba(76, 175, 80, 0.8);
-        }
-
-        .failure {
-            background: rgba(244, 67, 54, 0.8);
-        }
-
-        canvas {
-            display: block;
         }
     </style>
 </head>
 
 <body>
-    <!-- Stats Bar -->
-    <div id="stats">
-        <div id="fencer1-stats" class="fencer-stats">
-            <div class="name">🤺 Alice</div>
-            <div class="score">Score: <span id="score1">0</span></div>
-            <div class="blade">Blade: SIXTE</div>
-            <div class="skill">Skill: 70%</div>
-        </div>
-
-        <div id="current-action">
-            Current Action: <span id="action">None</span>
-        </div>
-
-        <div id="fencer2-stats" class="fencer-stats">
-            <div class="name">🤺 Bob</div>
-            <div class="score">Score: <span id="score2">0</span></div>
-            <div class="blade">Blade: QUARTE</div>
-            <div class="skill">Skill: 60%</div>
+    <div id="connection-controls">
+        <button id="connect-button">Connect to Server</button>
+        <div id="connection-status">
+            <div class="status-indicator"></div>
+            <span>Disconnected</span>
         </div>
     </div>
-
-    <!-- Connection Status -->
-    <div class="connection-status">
-        <span id="status-dot"></span>
-        <span id="status-text">Disconnected</span>
+    <div id="score">
+        <span id="left-score">0</span>
+        <span>-</span>
+        <span id="right-score">0</span>
     </div>
 
-    <!-- Info Panels -->
-    <div id="info">
-        <div class="info-panel">
-            <h3>Distance Information</h3>
-            <div id="distance">Current: MEDIUM</div>
-            <div id="range">Range: 1.5m - 2.0m</div>
+    <div id="left-info" class="fencer-info">
+        <div>Position: <span id="left-position">SIXTE</span></div>
+        <div>Distance: <span id="left-distance">LONG</span></div>
+        <div>Last Action: <span id="left-action">None</span></div>
+    </div>
+
+    <div id="right-info" class="fencer-info">
+        <div>Position: <span id="right-position">SIXTE</span></div>
+        <div>Distance: <span id="right-distance">LONG</span></div>
+        <div>Last Action: <span id="right-action">None</span></div>
+    </div>
+
+    <div class="distance-indicator" id="distance">LONG</div>
+    <div class="hit-flash" id="hit-flash"></div>
+
+    <div id="controls">
+        <div class="control-group" id="left-controls">
+            <div class="action-circle" id="left-parries">
+                <!-- Parry buttons will be added by JS -->
+            </div>
+            <div class="action-buttons">
+                <button onclick="leftFencerAdvance()">Advance</button>
+                <button onclick="leftFencerRetreat()">Retreat</button>
+                <button onclick="leftFencerLunge()">Direct Thrust</button>
+                <button onclick="leftFencerDisengage()">Disengage</button>
+                <button onclick="leftFencerCutOver()">Cut Over</button>
+                <button onclick="leftFencerFleche()">Flèche</button>
+            </div>
         </div>
 
-        <div class="info-panel">
-            <h3>Action History</h3>
-            <div id="history"></div>
+        <div class="control-group" id="right-controls">
+            <div class="action-buttons">
+                <button onclick="rightFencerAdvance()">Advance</button>
+                <button onclick="rightFencerRetreat()">Retreat</button>
+                <button onclick="rightFencerLunge()">Direct Thrust</button>
+                <button onclick="rightFencerDisengage()">Disengage</button>
+                <button onclick="rightFencerCutOver()">Cut Over</button>
+                <button onclick="rightFencerFleche()">Flèche</button>
+            </div>
+            <div class="action-circle" id="right-parries">
+                <!-- Parry buttons will be added by JS -->
+            </div>
         </div>
     </div>
 
     <script>
-        // Scene setup
-        const scene = new THREE.Scene();
-        scene.background = new THREE.Color(0x0f172a);
-        scene.fog = new THREE.Fog(0x0f172a, 5, 15);
 
+        // Update BLADE_POSITIONS with correct angles based on the image
+        const BLADE_POSITIONS = {
+            PRIME: {
+                rotation: { x: -Math.PI / 4, y: 0, z: Math.PI / 2 },  // Down and in
+                armRotation: { x: -Math.PI / 6, y: 0, z: Math.PI / 3 }
+            },
+            SECONDE: {
+                rotation: { x: Math.PI / 6, y: 0, z: Math.PI / 3 },  // Low outside
+                armRotation: { x: 0, y: 0, z: Math.PI / 4 }
+            },
+            TIERCE: {
+                rotation: { x: 0, y: Math.PI / 8, z: -Math.PI / 6 },  // High outside
+                armRotation: { x: 0, y: Math.PI / 8, z: -Math.PI / 8 }
+            },
+            QUARTE: {
+                rotation: { x: 0, y: -Math.PI / 8, z: -Math.PI / 6 },  // High inside
+                armRotation: { x: 0, y: -Math.PI / 8, z: -Math.PI / 8 }
+            },
+            QUINTE: {
+                rotation: { x: -Math.PI / 6, y: 0, z: -Math.PI / 4 },  // Head parry
+                armRotation: { x: -Math.PI / 6, y: 0, z: -Math.PI / 6 }
+            },
+            SIXTE: {
+                rotation: { x: 0, y: 0, z: -Math.PI / 6 },  // Default position
+                armRotation: { x: 0, y: 0, z: -Math.PI / 8 }
+            },
+            SEPTIME: {
+                rotation: { x: 0, y: -Math.PI / 8, z: Math.PI / 4 },  // Low inside
+                armRotation: { x: 0, y: -Math.PI / 8, z: Math.PI / 6 }
+            },
+            OCTAVE: {
+                rotation: { x: 0, y: 0, z: Math.PI / 4 },  // Low outside
+                armRotation: { x: 0, y: 0, z: Math.PI / 6 }
+            }
+        };
+
+        const DEFAULT_POSITION = BLADE_POSITIONS.SIXTE;
+
+        // Initialize Three.js
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color(0x808080);
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
         const renderer = new THREE.WebGLRenderer({ antialias: true });
         renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.shadowMap.enabled = true;
-        renderer.shadowMap.type = THREE.PCFSoftShadowMap;
         document.body.appendChild(renderer.domElement);
 
-        // Ground and Piste
-        const groundGeometry = new THREE.PlaneGeometry(20, 10);
-        const groundMaterial = new THREE.MeshPhongMaterial({
-            color: 0x1e293b,
-            roughness: 1,
-            metalness: 0
-        });
-        const ground = new THREE.Mesh(groundGeometry, groundMaterial);
-        ground.rotation.x = -Math.PI / 2;
-        ground.position.y = -1.1;
-        ground.receiveShadow = true;
-        scene.add(ground);
-
-        // Blade positions
-        // Update blade positions to account for side orientation
-        const bladePositions = {
-            SIXTE: {
-                armRotationY: 0,
-                armRotationZ: -Math.PI / 3,  // Raised slightly
-                bladeRotationX: Math.PI / 6   // Angled slightly forward
-            },
-            QUARTE: {
-                armRotationY: Math.PI / 6,
-                armRotationZ: -Math.PI / 3,
-                bladeRotationX: -Math.PI / 6  // Angled inside
-            },
-            SEPTIME: { armRotationY: 0, armRotationZ: -Math.PI / 3, bladeRotationX: Math.PI / 6 },
-            OCTAVE: { armRotationY: 0, armRotationZ: -Math.PI / 4, bladeRotationX: Math.PI / 4 },
-            PRIME: { armRotationY: 0, armRotationZ: -3 * Math.PI / 4, bladeRotationX: -Math.PI / 6 },
-            SECONDE: { armRotationY: 0, armRotationZ: -Math.PI / 2, bladeRotationX: Math.PI / 6 },
-            TIERCE: { armRotationY: 0, armRotationZ: -Math.PI / 4, bladeRotationX: Math.PI / 6 },
-            QUINTE: { armRotationY: 0, armRotationZ: -Math.PI / 6, bladeRotationX: -Math.PI / 6 }
-        };
-
-        function createFencer(color, position, isLeftSide) {  // Add isLeftSide parameter
-            const group = new THREE.Group();
-
-            // Body and head code remains the same
-            const bodyGeometry = new THREE.CylinderGeometry(0.2, 0.3, 1.8, 16);
-            const bodyMaterial = new THREE.MeshPhongMaterial({ color: color });
-            const body = new THREE.Mesh(bodyGeometry, bodyMaterial);
-            body.castShadow = true;
-            group.add(body);
-
-            const headGeometry = new THREE.SphereGeometry(0.2, 16, 16);
-            const head = new THREE.Mesh(headGeometry, bodyMaterial);
-            head.position.y = 1.1;
-            head.castShadow = true;
-            group.add(head);
-
-            // Updated arm group with forward-facing orientation
-            const armGroup = new THREE.Group();
-
-            // Upper arm - adjusted to point forward
-            const upperArmGeometry = new THREE.CylinderGeometry(0.05, 0.05, 0.4, 8);
-            const upperArm = new THREE.Mesh(upperArmGeometry, bodyMaterial);
-            upperArm.position.y = -0.2;
-            upperArm.rotation.x = Math.PI / 2;  // Point forward
-            upperArm.rotation.z = -Math.PI / 6;
-            armGroup.add(upperArm);
-
-            // Forearm - adjusted to point forward
-            const forearmGeometry = new THREE.CylinderGeometry(0.04, 0.04, 0.4, 8);
-            const forearm = new THREE.Mesh(forearmGeometry, bodyMaterial);
-            forearm.position.y = -0.6;
-            forearm.position.z = 0.1;  // Move forward
-            forearm.rotation.x = Math.PI / 2;  // Point forward
-            forearm.rotation.z = -Math.PI / 4;
-            armGroup.add(forearm);
-
-            // Updated sword group with corrected orientation
-            const swordGroup = new THREE.Group();
-
-            // Handle - aligned for proper grip
-            const handleGeometry = new THREE.CylinderGeometry(0.02, 0.02, 0.2, 8);
-            const handleMaterial = new THREE.MeshPhongMaterial({ color: 0x4a4a4a });
-            const handle = new THREE.Mesh(handleGeometry, handleMaterial);
-            handle.rotation.x = Math.PI / 2; // Point forward
-            swordGroup.add(handle);
-
-            // Guard - perpendicular to blade like a real fencing sword
-            const guardGeometry = new THREE.TorusGeometry(0.08, 0.01, 8, 16);
-            const guardMaterial = new THREE.MeshPhongMaterial({ color: 0x808080 });
-            const guard = new THREE.Mesh(guardGeometry, guardMaterial);
-            guard.position.y = 0.1;
-            guard.rotation.x = Math.PI / 2; // Orient perpendicular to blade
-            swordGroup.add(guard);
-
-            // Blade - proper fencing angle
-            const bladeGeometry = new THREE.CylinderGeometry(0.008, 0.002, 1.0, 8);
-            const bladeMaterial = new THREE.MeshPhongMaterial({
-                color: 0xcccccc,
-                metalness: 0.9,
-                roughness: 0.1
-            });
-            const blade = new THREE.Mesh(bladeGeometry, bladeMaterial);
-            blade.position.y = 0.6; // Position forward of guard
-            blade.rotation.x = -Math.PI / 6; // Slight upward angle
-            swordGroup.add(blade);
-
-            // Position entire sword group
-            swordGroup.position.set(
-                isLeftSide ? 0.2 : -0.2, // Offset to appropriate side
-                0.8, // Height
-                0.3  // Forward position
-            );
-
-            // Rotate sword group for proper en garde
-            swordGroup.rotation.set(
-                Math.PI / 6, // Tilt up slightly
-                isLeftSide ? -Math.PI / 6 : Math.PI / 6, // Angle in/out based on side
-                isLeftSide ? -Math.PI / 3 : Math.PI / 3  // Rotate to side
-            );
-
-            armGroup.add(swordGroup);
-
-            // Position arm group with proper side orientation
-            armGroup.position.set(isLeftSide ? 0.3 : -0.3, 0.8, 0);
-            group.add(armGroup);
-
-            // Initial rotation to face opponent
-            group.rotation.y = isLeftSide ? Math.PI : 0;
-
-            group.userData = {
-                armGroup: armGroup,
-                swordGroup: swordGroup,
-                blade: blade,
-                initialPosition: position.clone(),
-                isLeftSide: isLeftSide  // Store side information
-            };
-
-            group.position.copy(position);
-            return group;
-        }
-        // Create fencers
-        // Updated fencer creation with explicit side parameter
-        const fencer1 = createFencer(0x4299e1, new THREE.Vector3(-2, 0, 0), true);   // Blue, left side
-        const fencer2 = createFencer(0xf56565, new THREE.Vector3(2, 0, 0), false);  // Red, right side
-
-        fencer1.rotation.y = -Math.PI / 2;
-        fencer2.rotation.y = Math.PI / 2;
-        scene.add(fencer1);
-        scene.add(fencer2);
-
-        // Position camera
-        camera.position.set(0, 4, 8);
-        camera.lookAt(0, 0, 0);
-
-        // Animation functions 
-        function animateToPosition(fencer, position, duration = 0.5) {
-            const armGroup = fencer.userData.armGroup;
-            const swordGroup = fencer.userData.swordGroup;
-            const isLeftSide = fencer.position.x < 0;
-
-            gsap.to(armGroup.rotation, {
-                y: isLeftSide ? position.armRotationY : -position.armRotationY,
-                z: position.armRotationZ,
-                duration: duration,
-                ease: "power2.inOut"
-            });
-
-            gsap.to(swordGroup.rotation, {
-                x: isLeftSide ? position.bladeRotationX : -position.bladeRotationX,
-                duration: duration,
-                ease: "power2.inOut"
-            });
-        }
-
-        // Add lighting
+        // Lighting
         const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
         scene.add(ambientLight);
-
-        const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
         directionalLight.position.set(5, 5, 5);
         scene.add(directionalLight);
 
         // Create piste (fencing strip)
-        const pisteGeometry = new THREE.BoxGeometry(14, 0.1, 2);
-        const pisteMaterial = new THREE.MeshPhongMaterial({
-            color: 0x2a4858,
-            roughness: 0.5,
-            metalness: 0.5
-        });
-        const piste = new THREE.Mesh(pisteGeometry, pisteMaterial);
-        piste.position.y = -1; // Move it below the fencers
-        piste.receiveShadow = true;
+        function createPiste() {
+            const pisteGroup = new THREE.Group();
+
+            // Main strip
+            const pisteGeometry = new THREE.PlaneGeometry(14, 2);
+            const pisteMaterial = new THREE.MeshStandardMaterial({
+                color: 0x303030,
+                roughness: 0.8
+            });
+            const piste = new THREE.Mesh(pisteGeometry, pisteMaterial);
+            piste.rotation.x = -Math.PI / 2;
+            pisteGroup.add(piste);
+
+            // Distance markers
+            const markerMaterial = new THREE.LineBasicMaterial({ color: 0xffffff });
+            for (let x = -6; x <= 6; x += 2) {
+                const markerGeometry = new THREE.BufferGeometry().setFromPoints([
+                    new THREE.Vector3(x, 0.01, -1),
+                    new THREE.Vector3(x, 0.01, 1)
+                ]);
+                const line = new THREE.Line(markerGeometry, markerMaterial);
+                pisteGroup.add(line);
+            }
+
+            // Warning lines
+            const warningMaterial = new THREE.LineBasicMaterial({ color: 0xff0000 });
+            const leftWarning = new THREE.BufferGeometry().setFromPoints([
+                new THREE.Vector3(-5, 0.01, -1),
+                new THREE.Vector3(-5, 0.01, 1)
+            ]);
+            const rightWarning = new THREE.BufferGeometry().setFromPoints([
+                new THREE.Vector3(5, 0.01, -1),
+                new THREE.Vector3(5, 0.01, 1)
+            ]);
+            pisteGroup.add(new THREE.Line(leftWarning, warningMaterial));
+            pisteGroup.add(new THREE.Line(rightWarning, warningMaterial));
+
+            return pisteGroup;
+        }
+
+        // Add piste to scene
+        const piste = createPiste();
         scene.add(piste);
 
-        // Add center line
-        const lineGeometry = new THREE.BoxGeometry(0.1, 0.11, 2);
-        const lineMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
-        const centerLine = new THREE.Mesh(lineGeometry, lineMaterial);
-        centerLine.position.y = -0.95;
-        scene.add(centerLine);
+        // Create fencer
+        function createFencer(position, color) {
+            const fencer = new THREE.Group();
 
-        // Add warning lines
-        const warningLineLeft = new THREE.Mesh(lineGeometry, new THREE.MeshBasicMaterial({ color: 0xff0000 }));
-        warningLineLeft.position.set(-2, -0.95, 0);
-        scene.add(warningLineLeft);
+            // Body
+            const bodyGeometry = new THREE.CapsuleGeometry(0.2, 1, 4, 8);
+            const bodyMaterial = new THREE.MeshStandardMaterial({ color: color });
+            const body = new THREE.Mesh(bodyGeometry, bodyMaterial);
+            body.position.y = 1;
+            fencer.add(body);
 
-        const warningLineRight = new THREE.Mesh(lineGeometry, new THREE.MeshBasicMaterial({ color: 0xff0000 }));
-        warningLineRight.position.set(2, -0.95, 0);
-        scene.add(warningLineRight);
+            // Arm groups
+            const armGroup = new THREE.Group();
+            const forearmGroup = new THREE.Group();
+
+            // Upper arm
+            const upperArm = new THREE.Mesh(
+                new THREE.CylinderGeometry(0.05, 0.04, 0.3),
+                new THREE.MeshStandardMaterial({ color: color })
+            );
+            upperArm.position.y = -0.15;
+            armGroup.add(upperArm);
+
+            // Forearm
+            const forearm = new THREE.Mesh(
+                new THREE.CylinderGeometry(0.04, 0.03, 0.3),
+                new THREE.MeshStandardMaterial({ color: color })
+            );
+            forearm.position.y = -0.15;
+            forearmGroup.add(forearm);
+            armGroup.add(forearmGroup);
+
+            // Sword
+            const swordGroup = new THREE.Group();
+
+            // Guard
+            const guard = new THREE.Mesh(
+                new THREE.CylinderGeometry(0.1, 0.1, 0.02, 16),
+                new THREE.MeshStandardMaterial({ color: 0x808080 })
+            );
+            guard.rotation.x = Math.PI / 2;
+            swordGroup.add(guard);
+
+            // Grip
+            const grip = new THREE.Mesh(
+                new THREE.CylinderGeometry(0.02, 0.02, 0.15),
+                new THREE.MeshStandardMaterial({ color: 0x4A4A4A })
+            );
+            grip.position.y = -0.08;
+            swordGroup.add(grip);
+
+            // Blade
+            const blade = new THREE.Mesh(
+                new THREE.BoxGeometry(0.02, 0.8, 0.02),
+                new THREE.MeshStandardMaterial({ color: 0xC0C0C0 })
+            );
+            blade.position.y = 0.4;
+            swordGroup.add(blade);
+
+            // Position groups
+            armGroup.position.set(0.3, 1.4, 0);
+            swordGroup.position.set(0, 0.15, 0);
+            forearmGroup.add(swordGroup);
+
+            fencer.add(armGroup);
+
+            // Store references
+            fencer.armGroup = armGroup;
+            fencer.forearmGroup = forearmGroup;
+            fencer.swordGroup = swordGroup;
+            fencer.body = body;
+
+            // Set position
+            fencer.position.set(position, 0, 0);
+            if (position > 0) {
+                fencer.rotation.y = Math.PI;
+            }
+
+            return fencer;
+        }
+
+        // Create fencers
+        const leftFencer = createFencer(-2, 0x4444ff);
+        const rightFencer = createFencer(2, 0xff4444);
+        scene.add(leftFencer);
+        scene.add(rightFencer);
 
         // Position camera
-        camera.position.set(0, 3, 8);
-        camera.lookAt(0, 0, 0);
+        camera.position.set(0, 3, 7);
+        camera.lookAt(0, 1, 0);
 
-        // WebSocket setup
-        let ws;
-        let reconnectAttempts = 0;
-        const maxReconnectAttempts = 5;
+        // Game state
+        let gameState = {
+            leftScore: 0,
+            rightScore: 0,
+            leftAction: null,
+            rightAction: null,
+            distance: 'LONG'
+        };
 
-        function setupWebSocket() {
-            const statusDot = document.getElementById('status-dot');
-            const statusText = document.getElementById('status-text');
-
-            ws = new WebSocket('ws://localhost:8765');
-
-            ws.onopen = () => {
-                statusDot.classList.add('connected');
-                statusText.textContent = 'Connected';
-                reconnectAttempts = 0;
-            };
-
-            function showReconnectButton() {
-                const button = document.getElementById('reconnect-button') ||
-                    createReconnectButton();
-                button.style.display = 'inline-block';
-            }
-
-            function createReconnectButton() {
-                const button = document.createElement('button');
-                button.id = 'reconnect-button';
-                button.textContent = 'Reconnect';
-                button.onclick = () => {
-                    button.style.display = 'none';
-                    reconnectAttempts = 0;
-                    setupWebSocket();
-                };
-                document.querySelector('.connection-status').appendChild(button);
-                return button;
-            }
-
-            ws.onclose = () => {
-                statusDot.classList.remove('connected');
-                statusText.textContent = 'Disconnected';
-
-                if (reconnectAttempts < maxReconnectAttempts) {
-                    reconnectAttempts++;
-                    setTimeout(setupWebSocket, 2000);
-                } else {
-                    statusText.textContent = 'Connection Failed';
-                    showReconnectButton();
-                }
-            };
-
-
-            ws.onmessage = function (event) {
-                const data = JSON.parse(event.data);
-
-                // Update UI
-                document.getElementById('score1').textContent = data.fencer1.score;
-                document.getElementById('score2').textContent = data.fencer2.score;
-
-                if (data.current_action) {
-                    const actionElement = document.getElementById('action');
-                    actionElement.textContent = data.current_action;
-
-                    // Flash effect for new action
-                    const actionDisplay = document.getElementById('current-action');
-                    actionDisplay.style.backgroundColor = 'rgba(255, 255, 255, 0.2)';
-                    setTimeout(() => {
-                        actionDisplay.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
-                    }, 500);
-                }
-
-                if (data.distance) {
-                    document.getElementById('distance').textContent = `Current: ${data.distance}`;
-                    document.getElementById('range').textContent =
-                        `Range: ${data.distance_info.range[0]}m - ${data.distance_info.range[1]}m`;
-
-                    // Update fencer positions based on distance
-                    updateFencerDistance(data.distance);
-                }
-
-                // Handle blade positions and animations
-                if (data.fencer1.blade_position) {
-                    animateToPosition(fencer1, bladePositions[data.fencer1.blade_position]);
-                }
-                if (data.fencer2.blade_position) {
-                    animateToPosition(fencer2, bladePositions[data.fencer2.blade_position]);
-                }
-
-                // Handle action animations
-                if (data.current_action && data.last_action_details) {
-                    const attacker = data.last_action_details.fencer === data.fencer1.name ? fencer1 : fencer2;
-                    const defender = data.last_action_details.fencer === data.fencer1.name ? fencer2 : fencer1;
-
-                    animateAction(attacker, defender, data.current_action, data.last_action_details.success);
-                }
-
-                // Update history
-                if (data.action_history && data.action_history.length > 0) {
-                    const historyDiv = document.getElementById('history');
-                    historyDiv.innerHTML = data.action_history.join('<br>');
-                    historyDiv.scrollTop = historyDiv.scrollHeight;
-                }
-            };
-        }
-
-        function animateAction(attacker, defender, actionType, success) {
-            const timeline = gsap.timeline();
-            const isLeftSide = attacker.userData.isLeftSide;
-            const attackDirection = isLeftSide ? 1 : -1;
-
-            switch (actionType) {
-                case "Direct Thrust":
-                    timeline
-                        .to(attacker.userData.armGroup.rotation, {
-                            y: Math.PI / 2,  // Forward thrust
-                            duration: 0.2
-                        })
-                        .to(attacker.position, {
-                            x: attacker.position.x + (0.5 * attackDirection),  // Move forward
-                            duration: 0.3,
-                            ease: "power2.inOut"
-                        })
-                        .to(attacker.userData.swordGroup.rotation, {
-                            x: isLeftSide ? Math.PI / 6 : -Math.PI / 6,  // Adjust blade angle
-                            duration: 0.2
-                        })
-                        .to(attacker.position, {
-                            x: attacker.userData.initialPosition.x,  // Return to start
-                            duration: 0.3
-                        });
-                    break;
-
-                case "Point in Line":
-                    timeline
-                        .to(attacker.userData.armGroup.rotation, {
-                            z: -Math.PI / 2,  // Extend arm
-                            duration: 0.2
-                        })
-                        .to(attacker.userData.armGroup.rotation, {
-                            y: isLeftSide ? 0 : Math.PI,  // Point towards opponent
-                            duration: 0.2
-                        });
-                    break;
-
-                case "Disengage":
-                    timeline
-                        .to(attacker.userData.swordGroup.rotation, {
-                            y: Math.PI / 4,  // Start blade movement
-                            duration: 0.15
-                        })
-                        .to(attacker.userData.swordGroup.rotation, {
-                            y: -Math.PI / 4,  // Complete disengage
-                            duration: 0.15
-                        })
-                        .to(attacker.userData.armGroup.rotation, {
-                            z: -Math.PI / 2,  // Extend arm
-                            duration: 0.2
-                        })
-                        .to(attacker.position, {
-                            x: attacker.position.x + (attackDirection * 0.5), // Move along x-axis
-                            duration: 0.3,
-                            ease: "power2.inOut"
-                        })
-                        .to(attacker.position, {
-                            x: attacker.userData.initialPosition.x,
-                            duration: 0.3
-                        })
-                        .to(attacker.userData.swordGroup.rotation, {
-                            y: 0,
-                            duration: 0.2
-                        });
-                    break;
-
-                case "Cut Over":
-                    timeline
-                        .to(attacker.userData.swordGroup.rotation, {
-                            x: Math.PI / 3,  // Lift blade
-                            duration: 0.2
-                        })
-                        .to(attacker.userData.armGroup.rotation, {
-                            z: -Math.PI / 2.5,  // Extend slightly
-                            duration: 0.2
-                        })
-                        .to(attacker.userData.swordGroup.rotation, {
-                            x: 0,  // Drop blade
-                            duration: 0.2
-                        })
-                        .to(attacker.position, {
-                            x: attacker.position.x + (attackDirection * 0.5), // Move along x-axis
-                            duration: 0.3,
-                            ease: "power2.inOut"
-                        })
-                        .to(attacker.position, {
-                            x: attacker.userData.initialPosition.x,
-                            duration: 0.3
-                        });
-                    break;
-            }
-
-            showActionResult(attacker, success);
-        }
-
-        function updateFencerDistance(distanceType) {
-            const distanceMap = {
-                'OUT_OF_DISTANCE': 6,
-                'LONG': 4,
-                'MEDIUM': 3,
-                'LUNGE': 2,
-                'SHORT': 1.5,
-                'INFIGHTING': 1
-            };
-
-            const distance = distanceMap[distanceType] || 3;
-
-            gsap.to(fencer1.position, {
-                x: -distance / 2,
-                duration: 0.5,
-                ease: "power2.inOut"
-            });
-
-            gsap.to(fencer2.position, {
-                x: distance / 2,
-                duration: 0.5,
-                ease: "power2.inOut"
-            });
-        }
-
-        function showActionResult(fencer, success) {
-            const indicator = document.createElement('div');
-            indicator.className = `success-indicator ${success ? 'success' : 'failure'}`;
-            indicator.textContent = success ? 'Hit!' : 'Miss';
-
-            indicator.style.left = `${fencer.position.x > 0 ? '60%' : '40%'}`;
-            indicator.style.top = '50%';
-
-            document.body.appendChild(indicator);
-
-            gsap.to(indicator, {
-                opacity: 1,
-                y: -50,
-                duration: 0.3,
-                onComplete: () => {
-                    setTimeout(() => {
-                        gsap.to(indicator, {
-                            opacity: 0,
-                            duration: 0.3,
-                            onComplete: () => indicator.remove()
-                        });
-                    }, 1000);
-                }
-            });
-        }
+        // Fencer states
+        let leftFencerState = {
+            action: null
+        };
+        let rightFencerState = {
+            action: null
+        };
 
         // Animation loop
-        function animate() {
+        function animate(time) {
             requestAnimationFrame(animate);
+            TWEEN.update(time);
+            updateDistance();
             renderer.render(scene, camera);
         }
 
-        // Initialize
-        setupWebSocket();
+
+        let ws = null;
+        let isConnected = false;
+        const connectButton = document.getElementById('connect-button');
+        const statusIndicator = document.querySelector('.status-indicator');
+        const statusText = document.querySelector('#connection-status span');
+
+        function updateConnectionStatus(connected) {
+            isConnected = connected;
+            statusIndicator.classList.toggle('connected', connected);
+            statusText.textContent = connected ? 'Connected' : 'Disconnected';
+            connectButton.textContent = connected ? 'Disconnect' : 'Connect to Server';
+            connectButton.classList.toggle('disconnected', !connected);
+        }
+
+        function connectWebSocket() {
+            if (ws && ws.readyState === WebSocket.OPEN) {
+                console.log('Already connected');
+                return;
+            }
+
+            console.log('Connecting to WebSocket server...');
+            ws = new WebSocket('ws://127.0.0.1:8000/ws');
+
+            ws.onopen = function () {
+                console.log('Connected to server');
+                updateConnectionStatus(true);
+                // Send test message
+                ws.send(JSON.stringify({ type: "hello" }));
+            };
+
+            ws.onmessage = function (event) {
+                console.log('Received:', event.data);
+                try {
+                    const data = JSON.parse(event.data);
+                    if (data.fencer && data.action) {
+                        console.log(`Executing: ${data.fencer} ${data.action}`);
+                        executeCommand(data.fencer, data.action);
+                    }
+                } catch (e) {
+                    console.error('Error parsing message:', e);
+                }
+            };
+
+            ws.onerror = function (error) {
+                console.error('WebSocket error:', error);
+                updateConnectionStatus(false);
+            };
+
+            ws.onclose = function () {
+                console.log('Connection closed');
+                updateConnectionStatus(false);
+            };
+        }
+
+        function disconnectWebSocket() {
+            if (ws) {
+                ws.close();
+                ws = null;
+            }
+            updateConnectionStatus(false);
+        }
+
+        // Connect button handler
+        connectButton.addEventListener('click', function () {
+            if (isConnected) {
+                disconnectWebSocket();
+            } else {
+                connectWebSocket();
+            }
+        });
+
+        function executeCommand(fencer, action) {
+            const commands = {
+                'left': {
+                    'advance': leftFencerAdvance,
+                    'retreat': leftFencerRetreat,
+                    'lunge': leftFencerLunge,
+                    'parry_4': () => leftFencerParry(4),
+                    'parry_6': () => leftFencerParry(6),
+                    'disengage': leftFencerDisengage,
+                    'fleche': leftFencerFleche
+                },
+                'right': {
+                    'advance': rightFencerAdvance,
+                    'retreat': rightFencerRetreat,
+                    'lunge': rightFencerLunge,
+                    'parry_4': () => rightFencerParry(4),
+                    'parry_6': () => rightFencerParry(6),
+                    'disengage': rightFencerDisengage,
+                    'fleche': rightFencerFleche
+                }
+            };
+
+            try {
+                if (commands[fencer] && commands[fencer][action]) {
+                    commands[fencer][action]();
+                    console.log(`Executed ${action} for ${fencer} fencer`);
+                } else {
+                    console.error(`Unknown command: ${fencer} ${action}`);
+                }
+            } catch (error) {
+                console.error('Error executing command:', error);
+            }
+        }
+
+
+        // Start animation
         animate();
 
+        // Utility functions
+        function updateDistance() {
+            const distance = Math.abs(leftFencer.position.x - rightFencer.position.x);
+            let distanceLabel = 'LONG';
+
+            if (distance < 1) distanceLabel = 'INFIGHTING';
+            else if (distance < 2) distanceLabel = 'SHORT';
+            else if (distance < 3) distanceLabel = 'MEDIUM';
+            else if (distance < 4) distanceLabel = 'LONG';
+            else distanceLabel = 'OUT_OF_DISTANCE';
+
+            gameState.distance = distanceLabel;
+            document.getElementById('distance').textContent = distanceLabel;
+        }
+
+        function showHit(side) {
+            const flash = document.getElementById('hit-flash');
+            flash.style.opacity = '1';
+            setTimeout(() => flash.style.opacity = '0', 200);
+
+            if (side === 'left') gameState.leftScore++;
+            else gameState.rightScore++;
+
+            document.getElementById('left-score').textContent = gameState.leftScore;
+            document.getElementById('right-score').textContent = gameState.rightScore;
+        }
+
+        // Movement functions
+        function move(fencer, direction) {
+            const speed = 0.5;
+            fencer.position.x += direction * speed;
+            updateDistance();
+        }
+
+        // Action functions
+        function leftFencerAdvance() { move(leftFencer, 1); }
+        function leftFencerRetreat() { move(leftFencer, -1); }
+        function rightFencerAdvance() { move(rightFencer, -1); }
+        function rightFencerRetreat() { move(rightFencer, 1); }
+
+        // Attack animations
+        function executeAttack(fencer, attackType, duration = 500) {
+            const isLeft = fencer === leftFencer;
+            const direction = isLeft ? 1 : -1;
+
+            // Store original position
+            const originalPosition = fencer.position.clone();
+
+            // Clear any existing reset timeout
+            if (fencer.resetTimeout) {
+                clearTimeout(fencer.resetTimeout);
+            }
+
+            switch (attackType) {
+                case 'LUNGE':
+                    // Forward movement along x-axis
+                    const lungeDistance = 1.5;
+                    new TWEEN.Tween(fencer.position)
+                        .to({ x: fencer.position.x + direction * lungeDistance }, duration / 2)
+                        .easing(TWEEN.Easing.Quadratic.Out)
+                        .start();
+
+                    // Extend arm and blade
+                    extendBlade(fencer);
+                    setTimeout(() => checkHit(fencer, isLeft ? rightFencer : leftFencer), duration / 2);
+                    break;
+
+                case 'DISENGAGE':
+                    // Circular blade movement followed by extension
+                    const circle = new TWEEN.Tween(fencer.swordGroup.rotation)
+                        .to({ y: direction * Math.PI * 2 }, duration)
+                        .start();
+
+                    setTimeout(() => {
+                        extendBlade(fencer);
+                        checkHit(fencer, isLeft ? rightFencer : leftFencer);
+                    }, duration / 2);
+                    break;
+
+                case 'FLECHE':
+                    // Explosive forward movement with blade extension
+                    new TWEEN.Tween(fencer.position)
+                        .to({ x: fencer.position.x + direction * 2 }, duration / 2)
+                        .easing(TWEEN.Easing.Quadratic.Out)
+                        .start();
+
+                    extendBlade(fencer);
+                    setTimeout(() => checkHit(fencer, isLeft ? rightFencer : leftFencer), duration / 3);
+                    break;
+            }
+
+            // Reset everything after the action
+            fencer.resetTimeout = setTimeout(() => {
+                resetToGuard(fencer, originalPosition);
+            }, duration);
+
+            updateInfo(attackType, isLeft ? 'left' : 'right');
+        }
+
+        // Parry animations
+        function executeParry(fencer, parryType, duration = 300) {
+            const isLeft = fencer === leftFencer;
+            const direction = isLeft ? 1 : -1;
+
+            switch (parryType) {
+                case 'PARRY_4': // Quarte
+                    fencer.swordGroup.rotation.y = direction * -Math.PI / 6;
+                    fencer.swordGroup.rotation.z = -Math.PI / 4;
+                    break;
+                case 'PARRY_6': // Sixte
+                    fencer.swordGroup.rotation.y = direction * Math.PI / 6;
+                    fencer.swordGroup.rotation.z = -Math.PI / 4;
+                    break;
+                case 'PARRY_7': // Septime
+                    fencer.swordGroup.rotation.y = direction * -Math.PI / 6;
+                    fencer.swordGroup.rotation.z = Math.PI / 4;
+                    break;
+                case 'PARRY_8': // Octave
+                    fencer.swordGroup.rotation.y = direction * Math.PI / 6;
+                    fencer.swordGroup.rotation.z = Math.PI / 4;
+                    break;
+            }
+
+            // Reset after animation
+            setTimeout(() => {
+                fencer.swordGroup.rotation.set(0, 0, 0);
+            }, duration);
+
+            updateInfo(parryType, isLeft ? 'left' : 'right');
+        }
+
+
+        // Helper function to extend blade for attacks
+        function extendBlade(fencer) {
+            const isLeft = fencer === leftFencer;
+            const direction = isLeft ? 1 : -1;
+
+            new TWEEN.Tween(fencer.armGroup.rotation)
+                .to({ z: direction * -Math.PI / 3 }, 200)
+                .start();
+
+            new TWEEN.Tween(fencer.swordGroup.rotation)
+                .to({ z: direction * -Math.PI / 4 }, 200)
+                .start();
+        }
+
+        // Reset to guard position
+        function resetToGuard(fencer, originalPosition = null) {
+            const isLeft = fencer === leftFencer;
+            const guardPosition = DEFAULT_POSITION;
+
+            // Reset position if provided
+            if (originalPosition) {
+                new TWEEN.Tween(fencer.position)
+                    .to({ x: originalPosition.x, y: originalPosition.y, z: originalPosition.z }, 300)
+                    .easing(TWEEN.Easing.Quadratic.InOut)
+                    .start();
+            }
+
+            // Reset arm and blade rotations
+            new TWEEN.Tween(fencer.armGroup.rotation)
+                .to({
+                    x: guardPosition.armRotation.x,
+                    y: guardPosition.armRotation.y * (isLeft ? 1 : -1),
+                    z: guardPosition.armRotation.z
+                }, 300)
+                .easing(TWEEN.Easing.Quadratic.InOut)
+                .start();
+
+            new TWEEN.Tween(fencer.swordGroup.rotation)
+                .to({
+                    x: guardPosition.rotation.x,
+                    y: guardPosition.rotation.y * (isLeft ? 1 : -1),
+                    z: guardPosition.rotation.z
+                }, 300)
+                .easing(TWEEN.Easing.Quadratic.InOut)
+                .start();
+        }
+
+        // Improved hit detection
+        function checkHit(attacker, defender) {
+            const attackerTip = new THREE.Vector3();
+            const defenderGuard = new THREE.Vector3();
+
+            // Get world positions
+            attacker.swordGroup.localToWorld(attackerTip.set(0, 0.8, 0));
+            defender.swordGroup.localToWorld(defenderGuard.set(0, 0, 0));
+
+            const distance = attackerTip.distanceTo(defenderGuard);
+
+            // Check if defender is parrying
+            const defenderState = defender === rightFencer ? rightFencerState : leftFencerState;
+            const isParrying = defenderState.action?.includes('PARRY');
+
+            if (distance < 0.8) {  // Increased hit detection range slightly
+                if (isParrying) {
+                    // Check if parry covers the attack line
+                    const validParry = checkParryValidity(defenderState.action, attacker.position.y);
+                    if (validParry) {
+                        showParry(defenderGuard);
+                    } else {
+                        showHit(attacker === leftFencer ? 'left' : 'right');
+                    }
+                } else {
+                    showHit(attacker === leftFencer ? 'left' : 'right');
+                }
+            }
+        }
+
+        // Check if parry is valid against the attack
+        function checkParryValidity(parryType, attackHeight) {
+            // High line attacks (above waist)
+            if (attackHeight > 1) {
+                return ['PARRY_4', 'PARRY_6', 'PARRY_5'].includes(parryType);
+            }
+            // Low line attacks
+            return ['PARRY_7', 'PARRY_8', 'PARRY_2'].includes(parryType);
+        }
+
+        // Visual feedback
+        function showParry(position) {
+            const flash = document.createElement('div');
+            flash.className = 'parry-flash';
+            flash.style.left = `${position.x}px`;
+            flash.style.top = `${position.y}px`;
+            document.body.appendChild(flash);
+            setTimeout(() => flash.remove(), 200);
+        }
+
+        // Attack triggers
+        function leftFencerLunge() { executeAttack(leftFencer, 'LUNGE'); }
+        function leftFencerDisengage() { executeAttack(leftFencer, 'DISENGAGE'); }
+        function leftFencerCutOver() { executeAttack(leftFencer, 'CUTOVER'); }
+        function leftFencerFleche() { executeAttack(leftFencer, 'FLECHE'); }
+
+        function rightFencerLunge() { executeAttack(rightFencer, 'LUNGE'); }
+        function rightFencerDisengage() { executeAttack(rightFencer, 'DISENGAGE'); }
+        function rightFencerCutOver() { executeAttack(rightFencer, 'CUTOVER'); }
+        function rightFencerFleche() { executeAttack(rightFencer, 'FLECHE'); }
+
+        // Parry triggers
+        function leftFencerParry(number) { executeParry(leftFencer, `PARRY_${number}`); }
+        function rightFencerParry(number) { executeParry(rightFencer, `PARRY_${number}`); }
+
+        // Setup parry buttons in circles
+        function setupParryButtons() {
+            const parries = [4, 6, 7, 8];
+            const angles = [45, 135, 225, 315]; // Degrees for button placement
+
+            ['left', 'right'].forEach(side => {
+                const circle = document.getElementById(`${side}-parries`);
+                parries.forEach((parry, i) => {
+                    const button = document.createElement('button');
+                    button.className = 'parry-button';
+                    button.textContent = parry;
+                    button.onclick = () => {
+                        if (side === 'left') leftFencerParry(parry);
+                        else rightFencerParry(parry);
+                    };
+
+                    // Position button in circle
+                    const angle = angles[i] * Math.PI / 180;
+                    const radius = 50; // pixels from center
+                    button.style.left = `${radius * Math.cos(angle) + 55}px`;
+                    button.style.top = `${radius * Math.sin(angle) + 55}px`;
+
+                    circle.appendChild(button);
+                });
+            });
+        }
+
+        // Initialize
+        setupParryButtons();
+
         // Handle window resize
-        window.addEventListener('resize', () => {
+        window.addEventListener('resize', onWindowResize, false);
+        function onWindowResize() {
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
             renderer.setSize(window.innerWidth, window.innerHeight);
-        });
-    </script>
-
-    <script>
-        // Test function to verify animations work for both fencers
-        function testFencerAnimations() {
-            console.log("Testing fencer animations...");
-
-            // Test fencer1 (blue)
-            console.log("Testing blue fencer...");
-            const blueFencerTest = animateAction(fencer1, fencer2, "Direct Thrust", true);
-
-            // Test fencer2 (red)
-            console.log("Testing red fencer...");
-            const redFencerTest = animateAction(fencer2, fencer1, "Direct Thrust", true);
+        }
+        // Function to update fencer info
+        function updateInfo(action, side) {
+            const position = side === 'left' ? 'left' : 'right';
+            document.getElementById(`${position}-action`).textContent = action;
         }
 
-        // Add this to check if fencers are properly initialized
-        console.log("Fencer 1:", fencer1);
-        console.log("Fencer 2:", fencer2);
-
     </script>
-    <button onclick="testFencerAnimations()"
-        style="position: fixed; top: 10px; left: 50%; transform: translateX(-50%); z-index: 1000;">
-        Test Animations
-    </button>
 </body>
 
 </html>
