@@ -1,31 +1,9 @@
-"""
-Left Fencer:
-Arrow Up    - Advance
-Arrow Down  - Retreat
-Arrow Left  - Step Left
-Arrow Right - Step Right
-Q - Lunge
-E - Parry 4
-R - Parry 6
-F - Disengage
-
-Right Fencer:
-W - Advance
-S - Retreat
-A - Step Left
-D - Step Right
-I - Lunge
-O - Parry 4
-P - Parry 6
-L - Disengage
-"""
-
 import asyncio
 import aiohttp
 import time
 import logging
 from pynput import keyboard
-from typing import Dict, Tuple
+from typing import Dict
 from asyncio import Queue
 
 logging.basicConfig(level=logging.INFO)
@@ -42,32 +20,31 @@ class FencingController:
         self.throttle_delay = 0.1
         self.action_queue = Queue()
 
-        # Action mapping
+        # Action mapping for arrow keys (Player 2)
         self.action_map = {
-            # Left Fencer
-            keyboard.Key.up: ('left', 'advance'),
-            keyboard.Key.down: ('left', 'retreat'),
-            keyboard.Key.left: ('left', 'step_left'),
-            keyboard.Key.right: ('left', 'step_right'),
+            keyboard.Key.up: ('right', 'advance'),
+            keyboard.Key.down: ('right', 'retreat'),
+            keyboard.Key.left: ('right', 'step_left'),
+            keyboard.Key.right: ('right', 'step_right'),
         }
 
-        # Special actions using character keys
+        # Character key mapping
         self.char_action_map = {
-            # Left Fencer
-            'q': ('left', 'lunge'),
-            'e': ('left', 'parry_4'),
-            'r': ('left', 'parry_6'),
-            'f': ('left', 'disengage'),
+            # Left Fencer (WASD + surrounding keys)
+            'w': ('left', 'advance'),  # Forward
+            's': ('left', 'retreat'),  # Back
+            'a': ('left', 'step_left'),  # Left
+            'd': ('left', 'step_right'),  # Right
+            'q': ('left', 'parry_4'),  # Left parry
+            'e': ('left', 'parry_6'),  # Right parry
+            'r': ('left', 'lunge'),  # Forward attack
+            'f': ('left', 'disengage'),  # Tactical move
 
-            # Right Fencer
-            'w': ('right', 'advance'),
-            's': ('right', 'retreat'),
-            'a': ('right', 'step_left'),
-            'd': ('right', 'step_right'),
-            'i': ('right', 'lunge'),
-            'o': ('right', 'parry_4'),
-            'p': ('right', 'parry_6'),
-            'l': ('right', 'disengage'),
+            # Right Fencer (supplementary keys near arrow keys)
+            'l': ('right', 'parry_4'),  # Left parry
+            ';': ('right', 'parry_6'),  # Right parry
+            'p': ('right', 'lunge'),  # Forward attack
+            '/': ('right', 'disengage'),  # Tactical move
         }
 
     async def send_action(self, fencer: str, action: str):
@@ -139,25 +116,25 @@ class FencingController:
 
         # Print control instructions
         print("\nFencing Controller - Keyboard Controls:")
-        print("\nLeft Fencer:")
-        print("Arrow Up    - Advance")
-        print("Arrow Down  - Retreat")
-        print("Arrow Left  - Step Left")
-        print("Arrow Right - Step Right")
-        print("Q - Lunge")
-        print("E - Parry 4")
-        print("R - Parry 6")
-        print("F - Disengage")
-
-        print("\nRight Fencer:")
+        print("\nLeft Fencer (WASD Layout):")
         print("W - Advance")
         print("S - Retreat")
         print("A - Step Left")
         print("D - Step Right")
-        print("I - Lunge")
-        print("O - Parry 4")
-        print("P - Parry 6")
-        print("L - Disengage")
+        print("Q - Parry 4")
+        print("E - Parry 6")
+        print("R - Lunge")
+        print("F - Disengage")
+
+        print("\nRight Fencer (Arrow Keys):")
+        print("↑ - Advance")
+        print("↓ - Retreat")
+        print("← - Step Left")
+        print("→ - Step Right")
+        print("L - Parry 4")
+        print("; - Parry 6")
+        print("P - Lunge")
+        print("/ - Disengage")
 
         print("\nPress ESC to quit\n")
 
