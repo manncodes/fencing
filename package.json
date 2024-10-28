@@ -1,0 +1,22 @@
+{
+  "name": "fencing",
+  "version": "1.0.0",
+  "description": "The fencing simulator is built with a modular architecture that separates concerns between action definitions, state management, simulation logic, and presentation.",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@react-three/drei": "^9.115.0",
+    "@react-three/fiber": "^8.17.10",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "three": "^0.169.0"
+  }
+}
