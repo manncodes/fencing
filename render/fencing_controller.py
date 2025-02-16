@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 class FencingStrategy:
 
     def __init__(self):
-        self.base_url = "http://localhost:8000/action"
+        self.base_url = "http://localhost:8001/action"
         self.session = None
 
     async def __aenter__(self):

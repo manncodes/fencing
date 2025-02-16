@@ -1,6 +1,7 @@
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.responses import HTMLResponse
 import uvicorn
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
@@ -52,4 +53,15 @@ async def send_action(fencer: str, action: str):
 
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="127.0.0.1", port=8000)
+    if __name__ == "__main__":
+        print("\nStarting Fencing Game Server")
+        print("============================")
+        print("Local access URL: http://127.0.0.1:8000")
+        print("Public access URL: http://68.181.17.4:8000")
+        print("\nMake sure port 8000 is open in your firewall!")
+        print("============================\n")
+
+        uvicorn.run(
+            app,
+            host="0.0.0.0",  # Listen on all interfaces
+            port=8000)
