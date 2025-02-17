@@ -10,7 +10,8 @@
     <!-- for animation -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/18.6.4/tween.umd.js"></script>
     <!-- Add OrbitControls -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/examples/js/controls/OrbitControls.js"></script>
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/examples/js/controls/OrbitControls.js"></script>
     <style>
         body {
             margin: 0;
@@ -225,7 +226,6 @@
         #reset-camera {
             background: #4CAF50;
         }
-
     </style>
 </head>
 
@@ -516,11 +516,61 @@
             action: null
         };
 
-        // Animation loop
+        function getCurrentState() {
+            return {
+                left_fencer: {
+                    position: {
+                        x: leftFencer.position.x,
+                        y: leftFencer.position.y,
+                        z: leftFencer.position.z
+                    },
+                    blade_rotation: {
+                        x: leftFencer.swordGroup.rotation.x,
+                        y: leftFencer.swordGroup.rotation.y,
+                        z: leftFencer.swordGroup.rotation.z
+                    },
+                    current_action: leftFencerState.action,
+                    is_parrying: leftFencerState.action?.includes('PARRY') || false
+                },
+                right_fencer: {
+                    position: {
+                        x: rightFencer.position.x,
+                        y: rightFencer.position.y,
+                        z: rightFencer.position.z
+                    },
+                    blade_rotation: {
+                        x: rightFencer.swordGroup.rotation.x,
+                        y: rightFencer.swordGroup.rotation.y,
+                        z: rightFencer.swordGroup.rotation.z
+                    },
+                    current_action: rightFencerState.action,
+                    is_parrying: rightFencerState.action?.includes('PARRY') || false
+                },
+                distance: gameState.distance,
+                scores: {
+                    left: gameState.leftScore,
+                    right: gameState.rightScore
+                },
+                timestamp: Date.now()
+            };
+        }
+
+        function sendStateUpdate() {
+            if (ws && ws.readyState === WebSocket.OPEN) {
+                ws.send(JSON.stringify({
+                    type: "state_update",
+                    state: getCurrentState()
+                }));
+            }
+        }
+
+
+        // Modify animation loop to include state updates
         function animate(time) {
             requestAnimationFrame(animate);
             TWEEN.update(time);
             updateDistance();
+            sendStateUpdate(); // Send state every frame
             renderer.render(scene, camera);
         }
 
@@ -559,9 +609,26 @@
                 console.log('Received:', event.data);
                 try {
                     const data = JSON.parse(event.data);
-                    if (data.fencer && data.action) {
-                        console.log(`Executing: ${data.fencer} ${data.action}`);
-                        executeCommand(data.fencer, data.action);
+
+                    // Handle different message types
+                    switch (data.type) {
+                        case "action":
+                            if (data.fencer && data.action) {
+                                console.log(`Executing: ${data.fencer} ${data.action}`);
+                                executeCommand(data.fencer, data.action);
+                            }
+                            break;
+
+                        case "game_state":
+                            handleGameState(data.data);
+                            break;
+                        
+                        case "reset":
+                            resetAfterPoint();
+                            break;
+
+                        default:
+                            console.log('Received message:', data);
                     }
                 } catch (e) {
                     console.error('Error parsing message:', e);
@@ -649,16 +716,83 @@
             document.getElementById('distance').textContent = distanceLabel;
         }
 
+
+        function resetAfterPoint() {
+            // Cancel any ongoing animations
+            TWEEN.removeAll();
+
+            // Reset fencer positions
+            new TWEEN.Tween(leftFencer.position)
+                .to({ x: -2, y: 0, z: 0 }, 1000)
+                .easing(TWEEN.Easing.Quadratic.InOut)
+                .start();
+
+            new TWEEN.Tween(rightFencer.position)
+                .to({ x: 2, y: 0, z: 0 }, 1000)
+                .easing(TWEEN.Easing.Quadratic.InOut)
+                .start();
+
+            // Reset blade positions to default guard
+            resetToGuard(leftFencer);
+            resetToGuard(rightFencer);
+
+            // Clear fencer states
+            leftFencerState = {
+                action: null,
+                bladeExtended: false
+            };
+
+            rightFencerState = {
+                action: null,
+                bladeExtended: false
+            };
+
+            // Update game state
+            gameState.distance = 'LONG';
+
+            // Update UI
+            document.getElementById('distance').textContent = gameState.distance;
+            document.getElementById('left-action').textContent = 'None';
+            document.getElementById('right-action').textContent = 'None';
+
+            // Send state update to server
+            if (ws && ws.readyState === WebSocket.OPEN) {
+                ws.send(JSON.stringify({
+                    type: "reset_complete",
+                    state: getCurrentState()
+                }));
+            }
+        }
+
+
         function showHit(side) {
             const flash = document.getElementById('hit-flash');
             flash.style.opacity = '1';
             setTimeout(() => flash.style.opacity = '0', 200);
 
-            if (side === 'left') gameState.leftScore++;
-            else gameState.rightScore++;
+            // Send hit to server if connected
+            if (ws && ws.readyState === WebSocket.OPEN) {
+                ws.send(JSON.stringify({
+                    type: "hit",
+                    scorer: side
+                }));
+            }
+            
+            // Update score
+            if (side === 'left') {
+                gameState.leftScore = 2 + gameState.leftScore;
+            } else {
+                gameState.rightScore= 10 + gameState.rightScore;
+            }
 
-            document.getElementById('left-score').textContent = gameState.leftScore;
-            document.getElementById('right-score').textContent = gameState.rightScore;
+            // Adding delay before reset to allow hit animation to complete
+            setTimeout(resetAfterPoint, 100);
+        }
+
+        // Add new function to handle game state updates from server
+        function handleGameState(gameState) {
+            document.getElementById('left-score').textContent = gameState.left_score;
+            document.getElementById('right-score').textContent = gameState.right_score;
         }
 
         // Movement functions
@@ -666,6 +800,7 @@
             const speed = 0.5;
             fencer.position.x += direction * speed;
             updateDistance();
+            sendStateUpdate();
         }
 
         // Action functions
@@ -732,6 +867,8 @@
             }, duration);
 
             updateInfo(attackType, isLeft ? 'left' : 'right');
+            setTimeout(sendStateUpdate, duration / 2);
+            setTimeout(sendStateUpdate, duration);
         }
 
         // Parry animations
@@ -764,6 +901,7 @@
             }, duration);
 
             updateInfo(parryType, isLeft ? 'left' : 'right');
+            setTimeout(sendStateUpdate, duration);
         }
 
 
